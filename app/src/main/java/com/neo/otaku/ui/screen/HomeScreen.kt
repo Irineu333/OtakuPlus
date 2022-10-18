@@ -7,21 +7,22 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.neo.otaku.annotation.DevicesPreview
 import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.model.Manga
 import com.neo.otaku.ui.component.MangaCard
 import com.neo.otaku.ui.theme.OtakuPlusTheme
+import kotlin.math.roundToInt
 
 @Composable
 fun HomeScreen(
     mangas: List<Manga>
 ) = BoxWithConstraints {
 
-    val columns = if (maxHeight > maxWidth) 3 else 6
-
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(maxWidth / columns)
+        columns = GridCells.Adaptive(120.dp)
     ) {
         items(mangas) { manga ->
             MangaCard(
@@ -32,22 +33,18 @@ fun HomeScreen(
     }
 }
 
+@DevicesPreview
 @ThemesPreview
 @Composable
 private fun HomeScreenPreview() {
     OtakuPlusTheme {
         HomeScreen(
-            listOf(
+            (1..5).map {
                 Manga(
-                    name = "Item 1", coverUrl = ""
-                ),
-                Manga(
-                    name = "Item 2", coverUrl = ""
-                ),
-                Manga(
-                    name = "Item 3", coverUrl = ""
-                ),
-            )
+                    name = "Item $it",
+                    coverUrl = ""
+                )
+            }
         )
     }
 }
