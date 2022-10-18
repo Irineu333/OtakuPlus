@@ -1,4 +1,4 @@
-package com.neo.otaku.core.annotation
+package com.neo.otaku.annotation
 
 import android.content.res.Configuration
 import androidx.compose.ui.tooling.preview.Preview
