@@ -1,4 +1,4 @@
-package com.neo.otaku.ui.screen.home
+package com.neo.otaku.ui.screen.home.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,18 +9,18 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
-    private val _state = MutableStateFlow<HomeState>(HomeState.Loading)
-    val state = _state.asStateFlow()
+    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
+    val uiState = _uiState.asStateFlow()
 
     init {
         load()
     }
 
     private fun load() = viewModelScope.launch {
-        _state.value = runCatching {
-            HomeState.Valid(UnionMangas.getList())
+        _uiState.value = runCatching {
+            HomeUiState.Valid(UnionMangas.getPage())
         }.getOrElse {
-            HomeState.Error
+            HomeUiState.Error
         }
     }
 }

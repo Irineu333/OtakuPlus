@@ -8,6 +8,7 @@ import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,20 +37,28 @@ fun MangaCard(
         ) {
 
             BoxWithConstraints {
-                AsyncImage(
+                SubcomposeAsyncImage(
                     model = manga.coverUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
-                    fallback = rememberVectorPainter(
-                        image = Icons.TwoTone.BrokenImage,
-                    ),
-                    placeholder = rememberVectorPainter(
-                        image = Icons.TwoTone.Image
-                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(maxWidth * 1.5f)
                         .clip(RoundedCornerShape(8.dp)),
+                    loading = {
+                        Icon(
+                            imageVector = Icons.TwoTone.Image,
+                            contentDescription = null,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    },
+                    error = {
+                        Icon(
+                            imageVector = Icons.TwoTone.BrokenImage,
+                            contentDescription = null,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
                 )
             }
 

@@ -11,7 +11,7 @@ object Manga {
     )
 
     abstract class Scraping {
-        abstract suspend fun getList(): List<Thumbnail>
+        abstract suspend fun getPage(page : Int = 1): List<Thumbnail>
         abstract suspend fun getDetails(): Details
     }
 }
