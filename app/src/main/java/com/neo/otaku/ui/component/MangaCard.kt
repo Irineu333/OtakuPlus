@@ -2,6 +2,10 @@ package com.neo.otaku.ui.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Image
+import androidx.compose.material.icons.twotone.BrokenImage
+import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -9,18 +13,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.neo.otaku.annotation.ThemesPreview
-import com.neo.otaku.model.Manga
+import com.neo.otaku.core.Manga
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 
 @Composable
 fun MangaCard(
-    manga: Manga,
+    manga: Manga.Thumbnail,
     modifier: Modifier = Modifier
 ) = with(manga) {
     Card(modifier) {
@@ -30,25 +36,24 @@ fun MangaCard(
         ) {
 
             BoxWithConstraints {
-                SubcomposeAsyncImage(
+                AsyncImage(
                     model = manga.coverUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
+                    fallback = rememberVectorPainter(
+                        image = Icons.TwoTone.BrokenImage,
+                    ),
+                    placeholder = rememberVectorPainter(
+                        image = Icons.TwoTone.Image
+                    ),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(maxWidth * 1.5f)
                         .clip(RoundedCornerShape(8.dp)),
-                    loading = {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .align(Alignment.Center)
-                        )
-                    }
                 )
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = name,
@@ -64,11 +69,11 @@ fun MangaCard(
 private fun MangaCardPreview() {
     OtakuPlusTheme {
         MangaCard(
-            manga = Manga(
-                name = "Name hereerereerer",
+            manga = Manga.Thumbnail(
+                name = "Name here",
                 coverUrl = "",
             ),
-            modifier = Modifier.width(100.dp)
+            modifier = Modifier.width(120.dp)
         )
     }
 }
