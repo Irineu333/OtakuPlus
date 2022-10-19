@@ -18,7 +18,12 @@ class HomeViewModel : ViewModel() {
 
     private fun load() = viewModelScope.launch {
         _uiState.value = runCatching {
-            HomeUiState.Valid(UnionMangas.getPage())
+            HomeUiState.Valid(
+                UnionMangas.getPage(
+                    page = 1,
+                    path = UnionMangas.Path.COMPLETE.value
+                )
+            )
         }.getOrElse {
             HomeUiState.Error
         }

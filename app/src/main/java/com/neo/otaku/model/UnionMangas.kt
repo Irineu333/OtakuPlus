@@ -7,10 +7,10 @@ import org.jsoup.Jsoup
 
 object UnionMangas : Manga.Scraping() {
 
-    override suspend fun getPage(page: Int): List<Manga.Thumbnail> {
+    override suspend fun getPage(page: Int, path: String): List<Manga.Thumbnail> {
 
         val document = withContext(Dispatchers.IO) {
-            Jsoup.connect("https://unionleitor.top/lista-mangas/visualizacoes/$page").get()
+            Jsoup.connect("https://unionleitor.top/lista-mangas/$path/$page").get()
         }
 
         val block = document.select("div.tamanho-bloco-perfil")
@@ -29,5 +29,10 @@ object UnionMangas : Manga.Scraping() {
 
     override suspend fun getDetails(): Manga.Details {
         TODO("Not yet implemented")
+    }
+
+    enum class Path(val value : String) {
+        POPULAR("visualizacoes"),
+        COMPLETE("completos")
     }
 }
