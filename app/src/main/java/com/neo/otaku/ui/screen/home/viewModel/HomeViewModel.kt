@@ -1,11 +1,9 @@
 package com.neo.otaku.ui.screen.home.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neo.otaku.core.Manga
 import com.neo.otaku.model.MangaLivre
-import com.neo.otaku.model.UnionMangas
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -36,7 +34,7 @@ class HomeViewModel : ViewModel() {
             }.onSuccess { page ->
                 _uiState.update {
                     it.copy(
-                        thumbnails = it.thumbnails + page.thumbnails,
+                        thumbnails = (it.thumbnails + page.thumbnails).distinct(),
                         currentPage = page.currentPage,
                         nextPage = page.nextPage,
                         state = if (page.hasNextPage) {
