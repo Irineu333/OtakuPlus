@@ -11,7 +11,7 @@ object UnionMangas : Manga.Scraping {
     override suspend fun getPage(page: Int, path: String): Manga.Page {
 
         val document = withContext(Dispatchers.IO) {
-            Jsoup.connect("https://unionleitor.top/lista-mangas/$path/$page").get()
+            Jsoup.connect("https://unionleitor.top/lista-mangas/visualizacoes/$page").get()
         }
 
         val block = document.select("div.tamanho-bloco-perfil")
