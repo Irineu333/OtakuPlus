@@ -1,26 +1,58 @@
 package com.neo.otaku.ui.screen.home.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.neo.otaku.core.Manga
+import com.neo.otaku.model.MangaLivre
 import com.neo.otaku.model.UnionMangas
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
+    private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
-        load()
+        loadNextPage()
     }
 
-    private fun load() = viewModelScope.launch {
-        _uiState.value = runCatching {
-            HomeUiState.Valid(UnionMangas.getPage())
-        }.getOrElse {
-            HomeUiState.Error
+    fun loadNextPage() {
+        _uiState.update {
+            it.copy(
+                state = Manga.State.Loading
+            )
+        }
+
+        viewModelScope.launch {
+            runCatching {
+                MangaLivre.getPage(
+                    page = uiState.value.nextPage,
+                    path = MangaLivre.Path.RATE.value
+                )
+            }.onSuccess { page ->
+                _uiState.update {
+                    it.copy(
+                        thumbnails = it.thumbnails + page.thumbnails,
+                        currentPage = page.currentPage,
+                        nextPage = page.nextPage,
+                        state = if (page.hasNextPage) {
+                            Manga.State.Lazy
+                        } else {
+                            Manga.State.Finish
+                        }
+                    )
+                }
+            }.onFailure {
+                _uiState.update {
+                    it.copy(
+                        state = Manga.State.Error
+                    )
+                }
+            }
         }
     }
 }
