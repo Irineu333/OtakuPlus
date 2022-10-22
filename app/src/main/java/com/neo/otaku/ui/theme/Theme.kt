@@ -67,9 +67,10 @@ fun OtakuPlusTheme(
 
 @Composable
 fun OtakuPlusBackground(
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) = Surface(
-    modifier = Modifier.fillMaxSize(),
+    modifier = modifier,
     color = MaterialTheme.colorScheme.background,
     content = content
 )

@@ -5,24 +5,21 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Error
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.neo.otaku.annotation.DevicesPreview
 import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.core.Manga
 import com.neo.otaku.ui.component.AlertCard
 import com.neo.otaku.ui.component.Button
-import com.neo.otaku.ui.component.MangaCard
+import com.neo.otaku.ui.component.ThumbnailCard
 import com.neo.otaku.ui.screen.home.viewModel.HomeUiState
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
-import com.neo.otaku.util.extensions.paginatedItems
+import com.neo.otaku.util.extensions.itemsPaging
 
 @Composable
 fun HomeContent(
@@ -57,14 +54,14 @@ fun HomeContent(
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(120.dp)
             ) {
-                paginatedItems(
+                itemsPaging(
                     items = homeUiState.thumbnails,
                     state = homeUiState.state,
                     hasNextPage = homeUiState.hasNextPage,
                     onNextPage = onNextPage
-                ) { manga ->
-                    MangaCard(
-                        manga = manga,
+                ) { thumbnail ->
+                    ThumbnailCard(
+                        thumbnail = thumbnail,
                         modifier = Modifier.padding(4.dp)
                     )
                 }
@@ -138,23 +135,9 @@ private fun ThumbnailsErrorPreview() {
 
 @ThemesPreview
 @Composable
-private fun LoadingPreview() {
-    OtakuPlusTheme {
-        OtakuPlusBackground {
-            HomeContent(
-                homeUiState = HomeUiState(
-                    state = Manga.State.Loading
-                ),
-            )
-        }
-    }
-}
-
-@ThemesPreview
-@Composable
 private fun ErrorPreview() {
     OtakuPlusTheme {
-        OtakuPlusBackground {
+        OtakuPlusBackground(Modifier.fillMaxSize()) {
             HomeContent(
                 homeUiState = HomeUiState(
                     state = Manga.State.Error

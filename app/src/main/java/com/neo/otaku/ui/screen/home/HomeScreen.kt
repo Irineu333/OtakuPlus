@@ -1,5 +1,6 @@
 package com.neo.otaku.ui.screen.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -14,7 +15,7 @@ import com.neo.otaku.ui.theme.OtakuPlusTheme
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
-) = BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+) = Box(modifier = Modifier.fillMaxSize()) {
 
     val lifecycleState = viewModel.uiState.collectAsState()
 
@@ -27,7 +28,7 @@ fun HomeScreen(
 
 @Preview(showSystemUi = true)
 @Composable
-private fun HomeScreenPreview() {
+private fun DefaultPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
             HomeScreen()

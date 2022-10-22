@@ -3,33 +3,27 @@ package com.neo.otaku.ui.component
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
-import coil.compose.rememberAsyncImagePainter
 import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.core.Manga
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 
 @Composable
-fun MangaCard(
-    manga: Manga.Thumbnail,
+fun ThumbnailCard(
+    thumbnail: Manga.Thumbnail,
     modifier: Modifier = Modifier
-) = with(manga) {
+) = with(thumbnail) {
     Card(modifier) {
         Column(
             modifier = Modifier
@@ -38,7 +32,7 @@ fun MangaCard(
 
             BoxWithConstraints {
                 SubcomposeAsyncImage(
-                    model = manga.coverUrl,
+                    model = thumbnail.coverUrl,
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -77,8 +71,8 @@ fun MangaCard(
 @Composable
 private fun MangaCardPreview() {
     OtakuPlusTheme {
-        MangaCard(
-            manga = Manga.Thumbnail(
+        ThumbnailCard(
+            thumbnail = Manga.Thumbnail(
                 name = "Name here",
                 coverUrl = "",
             ),
