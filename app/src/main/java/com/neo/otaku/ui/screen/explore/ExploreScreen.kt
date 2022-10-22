@@ -17,12 +17,12 @@ import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 import com.neo.otaku.util.extensions.itemsWithPadding
 
-
 @Composable
 fun ExploreScreen(
     options : List<Option>
 ) = Column(
     modifier = Modifier
+        .fillMaxSize()
         .padding(16.dp),
 ) {
     OptionsComponent(options = options)
