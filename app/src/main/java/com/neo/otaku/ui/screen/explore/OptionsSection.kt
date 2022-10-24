@@ -1,9 +1,12 @@
-package com.neo.otaku.ui.component
+package com.neo.otaku.ui.screen.explore
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.History
+import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.material.icons.twotone.History
 import androidx.compose.material.icons.twotone.Save
@@ -11,17 +14,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.neo.otaku.annotation.ThemesPreview
-import com.neo.otaku.ui.screen.explore.ExploreScreen
+import com.neo.otaku.ui.component.Option
+import com.neo.otaku.ui.component.OptionCard
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 import com.neo.otaku.util.extensions.itemsWithPadding
 
 @Composable
-fun OptionsComponent(
-    options : List<Option>,
-    columns : Int = 2
+fun OptionsSection(
+    modifier: Modifier = Modifier,
+    options: List<Option>,
+    columns: Int = 2
 ) = LazyVerticalGrid(
-    columns = GridCells.Fixed(columns)
+    columns = GridCells.Fixed(columns),
+    modifier = modifier
 ) {
     itemsWithPadding(
         items = options,
@@ -41,10 +47,10 @@ fun OptionsComponent(
 private fun DefaultPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
-            ExploreScreen(
-                listOf(
+            OptionsSection(
+                options = listOf(
                     Option(
-                        icon = Icons.TwoTone.History,
+                        icon = Icons.Rounded.History,
                         text = "Historic",
                     ),
                     Option(
@@ -52,10 +58,11 @@ private fun DefaultPreview() {
                         text = "Favorites",
                     ),
                     Option(
-                        icon = Icons.TwoTone.Save,
+                        icon = Icons.Rounded.Save,
                         text = "Saved",
                     ),
-                )
+                ),
+                modifier = Modifier.padding(8.dp)
             )
         }
     }

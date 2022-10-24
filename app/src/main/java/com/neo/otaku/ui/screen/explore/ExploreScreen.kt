@@ -1,33 +1,43 @@
 package com.neo.otaku.ui.screen.explore
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.Favorite
-import androidx.compose.material.icons.twotone.History
-import androidx.compose.material.icons.twotone.Save
+import androidx.compose.material.icons.twotone.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.ui.component.Option
-import com.neo.otaku.ui.component.OptionCard
-import com.neo.otaku.ui.component.OptionsComponent
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
-import com.neo.otaku.util.extensions.itemsWithPadding
+
+data class RemoteFont(
+    val name: String,
+    val iconUrl: String
+)
 
 @Composable
 fun ExploreScreen(
-    options : List<Option>
+    viewModel: ExploreViewModel = viewModel(),
+    onNavigate: (String) -> Unit = {},
+    fonts: List<RemoteFont> = emptyList(),
+    options: List<Option>
 ) = Column(
     modifier = Modifier
         .fillMaxSize()
         .padding(16.dp),
 ) {
-    OptionsComponent(options = options)
+    OptionsSection(options = options)
 
-    // remote fonts
+    Spacer(modifier = Modifier.height(8.dp))
+
+    FontsSection(
+        fonts = fonts,
+        onManageFonts = {
+            onNavigate("remote_fonts")
+        }
+    )
 }
 
 @ThemesPreview
@@ -36,7 +46,7 @@ private fun DefaultPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
             ExploreScreen(
-                listOf(
+                options = listOf(
                     Option(
                         icon = Icons.TwoTone.History,
                         text = "Histórico",
@@ -49,6 +59,16 @@ private fun DefaultPreview() {
                         icon = Icons.TwoTone.Save,
                         text = "Salvos",
                     ),
+                ),
+                fonts = listOf(
+                    RemoteFont(
+                        name = "Manga Livre",
+                        iconUrl = ""
+                    ),
+                    RemoteFont(
+                        name = "Union Mangás",
+                        iconUrl = ""
+                    )
                 )
             )
         }

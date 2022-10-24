@@ -5,10 +5,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Image
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -18,17 +16,20 @@ import coil.compose.SubcomposeAsyncImage
 import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.core.Manga
 import com.neo.otaku.ui.theme.OtakuPlusTheme
+import com.neo.otaku.util.extensions.roundedShape
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun ThumbnailCard(
     thumbnail: Manga.Thumbnail,
-    modifier: Modifier = Modifier
-) = with(thumbnail) {
-    Card(modifier) {
-        Column(
-            modifier = Modifier
-                .padding(8.dp)
-        ) {
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    Card(
+        onClick = onClick,
+        modifier = modifier
+    ) {
+        Column(modifier = Modifier.padding(8.dp)) {
 
             BoxWithConstraints {
                 SubcomposeAsyncImage(
@@ -38,7 +39,7 @@ fun ThumbnailCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(maxWidth * 1.5f)
-                        .clip(RoundedCornerShape(8.dp)),
+                        .roundedShape(),
                     loading = {
                         Icon(
                             imageVector = Icons.TwoTone.Image,
@@ -59,7 +60,7 @@ fun ThumbnailCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = name,
+                text = thumbnail.name,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
