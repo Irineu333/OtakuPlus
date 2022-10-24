@@ -26,6 +26,7 @@ import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 import com.neo.otaku.util.extensions.circleShape
+import com.neo.otaku.util.extensions.clickable
 import com.neo.otaku.util.extensions.itemPadding
 import com.neo.otaku.util.extensions.roundedShape
 
@@ -62,54 +63,53 @@ fun FontsSection(
         }
     }
 
-    CompositionLocalProvider(
-        LocalIndication provides rememberRipple(
-            color = colorScheme.primary
-        )
-    ) {
-        LazyColumn {
-            itemPadding(
-                items = fonts,
-                paddingBottom = 4.dp
-            ) { font ->
+    LazyColumn {
+        itemPadding(
+            items = fonts,
+            paddingBottom = 4.dp
+        ) { font ->
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .roundedShape(4.dp)
-                        .clickable {}
-                        .padding(2.dp)
-                ) {
-                    SubcomposeAsyncImage(
-                        model = font.iconUrl,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.circleShape(),
-                        loading = {
-                            Icon(
-                                imageVector = Icons.TwoTone.Image,
-                                contentDescription = null,
-                                tint = colorScheme.primary
-                            )
-                        },
-                        error = {
-                            Icon(
-                                imageVector = Icons.TwoTone.BrokenImage,
-                                contentDescription = null,
-                                tint = colorScheme.primary
-                            )
-                        },
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .roundedShape(4.dp)
+                    .clickable(
+                        onClick = { },
+                        indication = rememberRipple(
+                            color = colorScheme.primary
+                        ),
                     )
+                    .padding(2.dp)
+            ) {
+                SubcomposeAsyncImage(
+                    model = font.iconUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.circleShape(),
+                    loading = {
+                        Icon(
+                            imageVector = Icons.TwoTone.Image,
+                            contentDescription = null,
+                            tint = colorScheme.primary
+                        )
+                    },
+                    error = {
+                        Icon(
+                            imageVector = Icons.TwoTone.BrokenImage,
+                            contentDescription = null,
+                            tint = colorScheme.primary
+                        )
+                    },
+                )
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(8.dp))
 
-                    Text(
-                        text = font.name,
-                        fontSize = 18.sp,
-                        modifier = Modifier.padding(end = 4.dp),
-                        color = contentColorFor(colorScheme.background)
-                    )
-                }
+                Text(
+                    text = font.name,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(end = 4.dp),
+                    color = contentColorFor(colorScheme.background)
+                )
             }
         }
     }
