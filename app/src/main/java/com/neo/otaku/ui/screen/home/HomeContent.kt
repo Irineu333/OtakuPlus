@@ -1,7 +1,10 @@
 package com.neo.otaku.ui.screen.home
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Error
 import androidx.compose.material3.CircularProgressIndicator
@@ -77,6 +80,7 @@ private fun ThumbnailsPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
             HomeContent(
+                modifier = Modifier.padding(8.dp),
                 homeUiState = HomeUiState(
                     state = Manga.State.Finish,
                     thumbnails = (0..5).map {
@@ -98,6 +102,7 @@ private fun ThumbnailsLoadingPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
             HomeContent(
+                modifier = Modifier.padding(8.dp),
                 homeUiState = HomeUiState(
                     state = Manga.State.Loading,
                     thumbnails = (0..5).map {
@@ -119,6 +124,7 @@ private fun ThumbnailsErrorPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
             HomeContent(
+                modifier = Modifier.padding(8.dp),
                 homeUiState = HomeUiState(
                     state = Manga.State.Error,
                     thumbnails = (0..5).map {

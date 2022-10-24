@@ -8,8 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material.icons.twotone.Favorite
-import androidx.compose.material.icons.twotone.History
-import androidx.compose.material.icons.twotone.Save
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,7 +16,7 @@ import com.neo.otaku.ui.component.Option
 import com.neo.otaku.ui.component.OptionCard
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
-import com.neo.otaku.util.extensions.itemsWithPadding
+import com.neo.otaku.util.extensions.itemPaddingBetween
 
 @Composable
 fun OptionsSection(
@@ -29,7 +27,7 @@ fun OptionsSection(
     columns = GridCells.Fixed(columns),
     modifier = modifier
 ) {
-    itemsWithPadding(
+    itemPaddingBetween(
         items = options,
         paddingEnd = 8.dp,
         paddingBottom = 8.dp,

@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-fun <E> LazyListScope.itemPadding(
+fun <E> LazyListScope.itemPaddingBetween(
     items: List<E>,
     paddingBottom: Dp,
     itemContent: @Composable LazyItemScope.(item: E) -> Unit

@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.twotone.CheckCircle
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -44,10 +46,11 @@ fun <E> LazyGridScope.itemsPaging(
                 }
                 Manga.State.Finish -> {
                     AlertCard(
-                        message = "FIM"
+                        icon = Icons.TwoTone.CheckCircle,
+                        message = "Fim."
                     )
                 }
-                Manga.State.Lazy, Manga.State.Loading-> {
+                Manga.State.Lazy, Manga.State.Loading -> {
 
                     CircularProgressIndicator()
 
@@ -64,7 +67,7 @@ fun <E> LazyGridScope.itemsPaging(
     }
 }
 
-fun <E> LazyGridScope.itemsWithPadding(
+fun <E> LazyGridScope.itemPaddingBetween(
     items: List<E>,
     paddingEnd: Dp,
     paddingBottom: Dp,
