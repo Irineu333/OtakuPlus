@@ -1,7 +1,6 @@
 package com.neo.otaku.ui.screen.home
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -17,10 +16,10 @@ fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) = Box(modifier = Modifier.fillMaxSize()) {
 
-    val lifecycleState = viewModel.uiState.collectAsState()
+    val state = viewModel.uiState.collectAsState()
 
     HomeContent(
-        homeUiState = lifecycleState.value,
+        homeUiState = state.value,
         modifier = Modifier.fillMaxSize(),
         onNextPage = viewModel::loadNextPage
     )

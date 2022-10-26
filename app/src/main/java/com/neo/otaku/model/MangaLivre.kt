@@ -8,12 +8,16 @@ import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 
 object MangaLivre : Manga.Scraping {
+
+    override val url: String = "https://mangalivre.net"
+    override val name: String = "Manga Livre"
+
     override suspend fun getPage(
         page: Int,
         path: String
     ): Manga.Page {
         val document = withContext(Dispatchers.IO) {
-            Jsoup.connect("https://mangalivre.net/series/index/$path?page=$page").get()
+            Jsoup.connect("$url/series/index/$path?page=$page").get()
         }
 
         val block = document.select("ul.seriesList")

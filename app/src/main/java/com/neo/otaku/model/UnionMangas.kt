@@ -8,10 +8,13 @@ import org.jsoup.select.Elements
 
 object UnionMangas : Manga.Scraping {
 
+    override val url: String = "https://unionleitor.top"
+    override val name: String = "Union Mangás"
+
     override suspend fun getPage(page: Int, path: String): Manga.Page {
 
         val document = withContext(Dispatchers.IO) {
-            Jsoup.connect("https://unionleitor.top/lista-mangas/visualizacoes/$page").get()
+            Jsoup.connect("$url/lista-mangas/$path/$page").get()
         }
 
         val block = document.select("div.tamanho-bloco-perfil")
@@ -28,7 +31,7 @@ object UnionMangas : Manga.Scraping {
         )
     }
 
-    private fun Elements.getPagination(): Pagination{
+    private fun Elements.getPagination(): Pagination {
         val elements = select("ul.pagination")
 
         val currentPage = elements.select("li.active")
@@ -65,8 +68,8 @@ object UnionMangas : Manga.Scraping {
     }
 
     data class Pagination(
-        val previousPage : Int?,
-        val currentPage : Int,
-        val nextPage : Int?
+        val previousPage: Int?,
+        val currentPage: Int,
+        val nextPage: Int?
     )
 }

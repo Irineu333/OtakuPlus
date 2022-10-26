@@ -17,7 +17,6 @@ fun <E> LazyListScope.itemPaddingBetween(
     itemContent: @Composable LazyItemScope.(item: E) -> Unit
 ) {
     itemsIndexed(items) { index, item ->
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,8 +33,10 @@ fun ExploreScreen(
 
     Spacer(modifier = Modifier.height(8.dp))
 
+    val state = viewModel.uiState.collectAsState()
+
     FontsSection(
-        fonts = fonts,
+        fonts = state.value,
         onManageFonts = {
             onNavigate("remote_fonts")
         }

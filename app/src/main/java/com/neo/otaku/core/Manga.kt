@@ -1,5 +1,8 @@
 package com.neo.otaku.core
 
+import com.neo.otaku.model.MangaLivre
+import com.neo.otaku.model.UnionMangas
+
 object Manga {
     data class Details(
         val thumbnail: Thumbnail
@@ -11,13 +14,17 @@ object Manga {
     )
 
     data class Page(
-        val currentPage : Int,
-        val nextPage : Int,
-        val thumbnails : List<Thumbnail>,
+        val currentPage: Int,
+        val nextPage: Int,
+        val thumbnails: List<Thumbnail>,
         val hasNextPage: Boolean
     )
 
     interface Scraping {
+
+        val url : String
+        val name: String
+        val iconUrl get() = "$url/favicon.ico"
 
         suspend fun getPage(
             page: Int = 1,
@@ -33,4 +40,6 @@ object Manga {
         object Lazy : State
         object Finish : State
     }
+
+    val fonts = listOf(UnionMangas, MangaLivre)
 }

@@ -1,17 +1,17 @@
 package com.neo.otaku.ui.screen.explore
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Download
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.Icon
+import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +30,7 @@ import com.neo.otaku.util.extensions.roundedShape
 @Composable
 fun FontsSection(
     modifier: Modifier = Modifier,
-    fonts: List<RemoteFont>,
+    fonts: List<FontViewState>,
     onManageFonts: () -> Unit = {}
 ) = Column(modifier = modifier) {
     Row(
@@ -63,7 +63,7 @@ fun FontsSection(
     LazyColumn {
         itemPaddingBetween(
             items = fonts,
-            paddingBottom = 4.dp
+            paddingBottom = 2.dp
         ) { font ->
 
             Row(
@@ -75,14 +75,18 @@ fun FontsSection(
                         indication = rememberRipple(
                             color = colorScheme.primary
                         ),
-                    )
-                    .padding(2.dp)
+                    ).padding(4.dp)
             ) {
                 SubcomposeAsyncImage(
                     model = font.iconUrl,
                     contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.circleShape(),
+                    contentScale = ContentScale.FillBounds,
+                    modifier = Modifier
+                        .size(20.dp)
+                        .background(
+                            color = colorScheme.primaryContainer,
+                            shape = RoundedCornerShape(4.dp)
+                        ).padding(2.dp),
                     loading = {
                         Icon(
                             imageVector = Icons.TwoTone.Image,
@@ -104,7 +108,6 @@ fun FontsSection(
                 Text(
                     text = font.name,
                     fontSize = 18.sp,
-                    modifier = Modifier.padding(end = 4.dp),
                     color = contentColorFor(colorScheme.background)
                 )
             }
@@ -119,8 +122,8 @@ private fun DefaultPreview() {
         OtakuPlusBackground {
             FontsSection(
                 fonts = listOf(
-                    RemoteFont(name = "Mangá Livre", iconUrl = ""),
-                    RemoteFont(name = "Union Mangás", iconUrl = ""),
+                    FontViewState(name = "Mangá Livre", iconUrl = ""),
+                    FontViewState(name = "Union Mangás", iconUrl = ""),
                 ),
                 modifier = Modifier.padding(8.dp)
             )
