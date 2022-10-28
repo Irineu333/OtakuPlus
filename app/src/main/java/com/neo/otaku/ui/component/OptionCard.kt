@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Android
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,7 +54,9 @@ fun OptionCard(
 
         Text(
             text = option.text,
-            fontSize = 18.sp
+            style = typography.labelLarge.copy(
+                fontSize = 18.sp
+            )
         )
     }
 }

@@ -13,25 +13,27 @@ import com.neo.otaku.ui.component.Option
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 
-data class RemoteFont(
-    val name: String,
-    val iconUrl: String
-)
-
 @Composable
 fun ExploreScreen(
     viewModel: ExploreViewModel = viewModel(),
     onNavigate: (String) -> Unit = {},
-    fonts: List<RemoteFont> = emptyList(),
     options: List<Option>
 ) = Column(
     modifier = Modifier
         .fillMaxSize()
-        .padding(16.dp),
+        .padding(
+            vertical = 16.dp,
+            horizontal = 8.dp
+        ),
 ) {
-    OptionsSection(options = options)
+    OptionsSection(
+        options = options,
+        modifier = Modifier.padding(
+            horizontal = 8.dp
+        )
+    )
 
-    Spacer(modifier = Modifier.height(8.dp))
+    Spacer(modifier = Modifier.height(16.dp))
 
     val state = viewModel.uiState.collectAsState()
 
@@ -62,16 +64,6 @@ private fun DefaultPreview() {
                         icon = Icons.TwoTone.Save,
                         text = "Salvos",
                     ),
-                ),
-                fonts = listOf(
-                    RemoteFont(
-                        name = "Manga Livre",
-                        iconUrl = ""
-                    ),
-                    RemoteFont(
-                        name = "Union Mangás",
-                        iconUrl = ""
-                    )
                 )
             )
         }
