@@ -47,18 +47,9 @@ private fun DefaultPreview() {
         OtakuPlusBackground {
             OptionsSection(
                 options = listOf(
-                    Option(
-                        icon = Icons.Rounded.History,
-                        text = "Historic",
-                    ),
-                    Option(
-                        icon = Icons.TwoTone.Favorite,
-                        text = "Favorites",
-                    ),
-                    Option(
-                        icon = Icons.Rounded.Save,
-                        text = "Saved",
-                    ),
+                    Option.Historic,
+                    Option.Favorites,
+                    Option.Saved,
                 ),
                 modifier = Modifier.padding(8.dp)
             )

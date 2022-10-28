@@ -4,7 +4,6 @@ import androidx.compose.foundation.Indication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.BrokenImage
@@ -22,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.neo.otaku.annotation.ThemesPreview
+import com.neo.otaku.core.Manga
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
-import com.neo.otaku.util.extensions.circleShape
 import com.neo.otaku.util.extensions.clickable
 import com.neo.otaku.util.extensions.itemPaddingBetween
 import com.neo.otaku.util.extensions.roundedShape
@@ -33,7 +32,8 @@ import com.neo.otaku.util.extensions.roundedShape
 fun FontsSection(
     modifier: Modifier = Modifier,
     fonts: List<FontViewState>,
-    onManageFonts: () -> Unit = {}
+    onManageFonts: () -> Unit = {},
+    onOptionClick: (Manga.Scraping) -> Unit = {}
 ) = Column(modifier = modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

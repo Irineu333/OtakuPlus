@@ -20,22 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             OtakuPlusTheme {
                 OtakuPlusBackground {
-                    ExploreScreen(
-                        options = listOf(
-                            Option(
-                                icon = Icons.TwoTone.History,
-                                text = "Histórico",
-                            ),
-                            Option(
-                                icon = Icons.TwoTone.Favorite,
-                                text = "Favoritos",
-                            ),
-                            Option(
-                                icon = Icons.TwoTone.Save,
-                                text = "Salvos",
-                            ),
-                        )
-                    )
+                    ExploreScreen()
                 }
             }
         }

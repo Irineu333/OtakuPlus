@@ -1,14 +1,13 @@
 package com.neo.otaku.ui.screen.explore
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.neo.otaku.annotation.ThemesPreview
+import com.neo.otaku.core.Manga
 import com.neo.otaku.ui.component.Option
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
@@ -16,8 +15,6 @@ import com.neo.otaku.ui.theme.OtakuPlusTheme
 @Composable
 fun ExploreScreen(
     viewModel: ExploreViewModel = viewModel(),
-    onNavigate: (String) -> Unit = {},
-    options: List<Option>
 ) = Column(
     modifier = Modifier
         .fillMaxSize()
@@ -27,7 +24,11 @@ fun ExploreScreen(
         ),
 ) {
     OptionsSection(
-        options = options,
+        options = listOf(
+            Option.Historic,
+            Option.Favorites,
+            Option.Saved
+        ),
         modifier = Modifier.padding(
             horizontal = 8.dp
         )
@@ -40,7 +41,10 @@ fun ExploreScreen(
     FontsSection(
         fonts = state.value,
         onManageFonts = {
-            onNavigate("remote_fonts")
+
+        },
+        onOptionClick = {
+
         }
     )
 }
@@ -50,22 +54,7 @@ fun ExploreScreen(
 private fun DefaultPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
-            ExploreScreen(
-                options = listOf(
-                    Option(
-                        icon = Icons.TwoTone.History,
-                        text = "Histórico",
-                    ),
-                    Option(
-                        icon = Icons.TwoTone.Favorite,
-                        text = "Favoritos",
-                    ),
-                    Option(
-                        icon = Icons.TwoTone.Save,
-                        text = "Salvos",
-                    ),
-                )
-            )
+            ExploreScreen()
         }
     }
 }
