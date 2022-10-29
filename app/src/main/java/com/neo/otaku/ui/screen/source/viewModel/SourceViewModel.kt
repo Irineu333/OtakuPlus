@@ -1,15 +1,18 @@
-package com.neo.otaku.ui.screen.home.viewModel
+package com.neo.otaku.ui.screen.source.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neo.otaku.core.Manga
 import com.neo.otaku.model.MangaLivre
+import com.neo.otaku.ui.screen.home.viewModel.HomeUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class SourceViewModel(
+    private val source: Manga.Scraping
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
@@ -27,7 +30,7 @@ class HomeViewModel : ViewModel() {
 
         viewModelScope.launch {
             runCatching {
-                MangaLivre.getPage(
+                source.getPage(
                     page = uiState.value.nextPage,
                     path = MangaLivre.Path.RATE.value
                 )

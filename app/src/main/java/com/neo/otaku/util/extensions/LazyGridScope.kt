@@ -17,10 +17,11 @@ import androidx.compose.ui.unit.dp
 import com.neo.otaku.core.Manga
 import com.neo.otaku.ui.component.AlertCard
 import com.neo.otaku.ui.component.Button
+import com.neo.otaku.ui.screen.home.viewModel.HomeUiState
 
 fun <E> LazyGridScope.itemsPaging(
     items: List<E>,
-    state: Manga.State,
+    state: HomeUiState.State,
     hasNextPage: Boolean,
     onNextPage: () -> Unit,
     itemContent: @Composable LazyGridItemScope.(item: E) -> Unit
@@ -35,7 +36,7 @@ fun <E> LazyGridScope.itemsPaging(
                 .fillMaxWidth()
         ) {
             when (state) {
-                Manga.State.Error -> {
+                HomeUiState.State.Error -> {
                     AlertCard(
                         button = Button(
                             text = "Tentar novamente",
@@ -44,17 +45,17 @@ fun <E> LazyGridScope.itemsPaging(
                         message = "Algo deu errado."
                     )
                 }
-                Manga.State.Finish -> {
+                HomeUiState.State.Finish -> {
                     AlertCard(
                         icon = Icons.TwoTone.CheckCircle,
                         message = "Fim."
                     )
                 }
-                Manga.State.Lazy, Manga.State.Loading -> {
+                HomeUiState.State.Lazy, HomeUiState.State.Loading -> {
 
                     CircularProgressIndicator()
 
-                    if (state is Manga.State.Lazy) {
+                    if (state is HomeUiState.State.Lazy) {
                         if (hasNextPage) {
                             LaunchedEffect(key1 = items) {
                                 onNextPage()

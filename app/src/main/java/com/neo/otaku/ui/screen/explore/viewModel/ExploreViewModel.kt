@@ -1,4 +1,4 @@
-package com.neo.otaku.ui.screen.explore
+package com.neo.otaku.ui.screen.explore.viewModel
 
 import androidx.lifecycle.ViewModel
 import com.neo.otaku.core.Manga.fonts
@@ -22,5 +22,5 @@ class ExploreViewModel : ViewModel() {
 
 data class FontViewState(
     val name: String,
-    var iconUrl: String
+    val iconUrl: String
 )

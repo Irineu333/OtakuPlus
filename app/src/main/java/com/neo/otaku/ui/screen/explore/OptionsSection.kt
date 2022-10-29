@@ -12,14 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.neo.otaku.annotation.ThemesPreview
-import com.neo.otaku.ui.component.Option
+import com.neo.otaku.core.Option
+import com.neo.otaku.ui.component.Explore
 import com.neo.otaku.ui.component.OptionCard
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 import com.neo.otaku.util.extensions.itemPaddingBetween
 
 @Composable
-fun OptionsSection(
+internal fun OptionsSection(
     modifier: Modifier = Modifier,
     options: List<Option>,
     columns: Int = 2
@@ -33,8 +34,7 @@ fun OptionsSection(
         paddingBottom = 8.dp,
         columns = columns
     ) { option ->
-        OptionCard(
-            option = option,
+        option.OptionCard(
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -47,9 +47,9 @@ private fun DefaultPreview() {
         OtakuPlusBackground {
             OptionsSection(
                 options = listOf(
-                    Option.Historic,
-                    Option.Favorites,
-                    Option.Saved,
+                    Explore.Historic,
+                    Explore.Favorites,
+                    Explore.Saved,
                 ),
                 modifier = Modifier.padding(8.dp)
             )

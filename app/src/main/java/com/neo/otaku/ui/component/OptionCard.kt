@@ -23,12 +23,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neo.otaku.annotation.ThemesPreview
+import com.neo.otaku.core.Option
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 
-open class Option(
-    val icon: ImageVector,
-    val text: String
-) {
+object Explore {
     object Historic : Option(
         icon = Icons.Rounded.History,
         text = "Histórico",
@@ -47,46 +45,64 @@ open class Option(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun OptionCard(
-    option: Option,
+fun Option.OptionCard(
     modifier: Modifier = Modifier,
     onClick: (Option) -> Unit = { }
 ) = Card(
-    onClick = { onClick(option) },
+    onClick = { onClick(this) },
     modifier = modifier
 ) {
-    Row(
+    this@OptionCard.Row(
         modifier = Modifier.padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Image(
-            imageVector = option.icon,
-            contentDescription = null,
-            colorFilter = ColorFilter.tint(
-                color = colorScheme.primary
+        verticalAlignment = Alignment.CenterVertically,
+        icon = { icon ->
+            Image(
+                imageVector = icon,
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(
+                    color = colorScheme.primary
+                )
             )
-        )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Text(
-            text = option.text,
-            style = typography.labelLarge.copy(
-                fontSize = 18.sp
+        },
+        text = { text ->
+            Text(
+                text = text,
+                style = typography.labelLarge.copy(
+                    fontSize = 18.sp
+                )
             )
-        )
-    }
+        },
+        paddingBetween = 8.dp
+    )
 }
 
 @ThemesPreview
 @Composable
 private fun DefaultPreview() {
     OtakuPlusTheme {
-        OptionCard(
-            option = Option(
-                icon = Icons.Rounded.Android,
-                text = "text here"
-            )
-        )
+        Option(
+            icon = Icons.Rounded.Android,
+            text = "text here"
+        ).OptionCard()
+    }
+}
+
+@ThemesPreview
+@Composable
+private fun OnlyIconPreview() {
+    OtakuPlusTheme {
+        Option(
+            icon = Icons.Rounded.Android
+        ).OptionCard()
+    }
+}
+
+@ThemesPreview
+@Composable
+private fun OnlyTextPreview() {
+    OtakuPlusTheme {
+        Option(
+            text = "text here"
+        ).OptionCard()
     }
 }

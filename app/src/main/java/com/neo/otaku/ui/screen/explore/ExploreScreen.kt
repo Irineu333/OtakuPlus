@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.neo.otaku.annotation.ThemesPreview
-import com.neo.otaku.core.Manga
-import com.neo.otaku.ui.component.Option
+import com.neo.otaku.ui.component.Explore
+import com.neo.otaku.ui.screen.explore.viewModel.ExploreViewModel
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 
@@ -25,9 +25,9 @@ fun ExploreScreen(
 ) {
     OptionsSection(
         options = listOf(
-            Option.Historic,
-            Option.Favorites,
-            Option.Saved
+            Explore.Historic,
+            Explore.Favorites,
+            Explore.Saved
         ),
         modifier = Modifier.padding(
             horizontal = 8.dp

@@ -82,7 +82,7 @@ private fun ThumbnailsPreview() {
             HomeContent(
                 modifier = Modifier.padding(8.dp),
                 homeUiState = HomeUiState(
-                    state = Manga.State.Finish,
+                    state = HomeUiState.State.Finish,
                     thumbnails = (0..5).map {
                         Manga.Thumbnail(
                             name = "item $it",
@@ -104,7 +104,7 @@ private fun ThumbnailsLoadingPreview() {
             HomeContent(
                 modifier = Modifier.padding(8.dp),
                 homeUiState = HomeUiState(
-                    state = Manga.State.Loading,
+                    state = HomeUiState.State.Loading,
                     thumbnails = (0..5).map {
                         Manga.Thumbnail(
                             name = "item $it",
@@ -126,7 +126,7 @@ private fun ThumbnailsErrorPreview() {
             HomeContent(
                 modifier = Modifier.padding(8.dp),
                 homeUiState = HomeUiState(
-                    state = Manga.State.Error,
+                    state = HomeUiState.State.Error,
                     thumbnails = (0..5).map {
                         Manga.Thumbnail(
                             name = "item $it",
@@ -146,7 +146,7 @@ private fun ErrorPreview() {
         OtakuPlusBackground(Modifier.fillMaxSize()) {
             HomeContent(
                 homeUiState = HomeUiState(
-                    state = Manga.State.Error
+                    state = HomeUiState.State.Error
                 ),
             )
         }

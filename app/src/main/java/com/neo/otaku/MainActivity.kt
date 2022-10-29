@@ -3,12 +3,10 @@ package com.neo.otaku
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.Favorite
-import androidx.compose.material.icons.twotone.History
-import androidx.compose.material.icons.twotone.Save
-import com.neo.otaku.ui.component.Option
-import com.neo.otaku.ui.screen.explore.ExploreScreen
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.neo.otaku.ui.screen.source.SourceScreen
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 
@@ -20,7 +18,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             OtakuPlusTheme {
                 OtakuPlusBackground {
-                    ExploreScreen()
+                    SourceScreen(
+                        modifier = Modifier.padding(16.dp)
+                    )
                 }
             }
         }

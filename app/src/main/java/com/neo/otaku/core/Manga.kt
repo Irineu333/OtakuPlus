@@ -34,12 +34,5 @@ object Manga {
         suspend fun getDetails(): Details
     }
 
-    sealed interface State {
-        object Loading : State
-        object Error : State
-        object Lazy : State
-        object Finish : State
-    }
-
     val fonts = listOf(UnionMangas, MangaLivre)
 }

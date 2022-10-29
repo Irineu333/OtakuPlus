@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -15,13 +17,24 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-fun Modifier.roundedShape(radius : Dp = 8.dp): Modifier = clip(RoundedCornerShape(radius))
+fun Modifier.roundedShape(radius: Dp = 8.dp): Modifier = clip(RoundedCornerShape(radius))
 fun Modifier.circleShape(): Modifier = clip(CircleShape)
 
+fun Modifier.onRippleClick(
+    enabled: Boolean = true,
+    onClick: () -> Unit
+): Modifier = composed {
+    clickable(
+        onClick = onClick,
+        enabled = enabled,
+        indication = rememberRipple()
+    )
+}
+
 fun Modifier.clickable(
-    onClick : () -> Unit,
+    onClick: () -> Unit,
+    enabled: Boolean = true,
     indication: Indication,
-    enabled : Boolean = true,
     onClickLabel: String? = null,
     role: Role? = null
 ) = composed(

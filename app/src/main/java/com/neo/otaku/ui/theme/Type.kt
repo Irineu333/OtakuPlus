@@ -7,6 +7,12 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
+
+// TODO: it will be removed in future versions of compose and includeFontPadding will be false by default
+val platformStyle = PlatformTextStyle(
+    includeFontPadding = false
+)
+
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
@@ -15,25 +21,30 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
-        platformStyle = PlatformTextStyle(
-            // TODO: it will be removed in future versions of compose and includeFontPadding will be false by default
-            includeFontPadding = false
-        )
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
+        platformStyle = platformStyle
+    ),
+    labelLarge = TextStyle(
         fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp,
+        platformStyle = platformStyle
+    ),
+    labelMedium = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 16.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp,
+        platformStyle = platformStyle
     ),
     labelSmall = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
+        fontSize = 14.sp,
         lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        platformStyle = platformStyle
     )
-    */
 )
