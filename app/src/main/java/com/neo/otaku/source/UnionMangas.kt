@@ -1,4 +1,4 @@
-package com.neo.otaku.model
+package com.neo.otaku.source
 
 import com.neo.otaku.core.Source
 import kotlinx.coroutines.Dispatchers

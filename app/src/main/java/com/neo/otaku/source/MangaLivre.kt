@@ -1,4 +1,4 @@
-package com.neo.otaku.model
+package com.neo.otaku.source
 
 import com.neo.otaku.core.Source
 import com.neo.otaku.util.extensions.firstSubstring
@@ -14,7 +14,7 @@ object MangaLivre : Source.Scraping {
 
     override val paths: List<Source.Path> = listOf(
         Source.Path(
-            name = "Nota",
+            name = "Avaliação",
             value = "nota"
         )
     )

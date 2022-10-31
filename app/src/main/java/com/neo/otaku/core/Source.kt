@@ -1,7 +1,7 @@
 package com.neo.otaku.core
 
-import com.neo.otaku.model.MangaLivre
-import com.neo.otaku.model.UnionMangas
+import com.neo.otaku.source.MangaLivre
+import com.neo.otaku.source.UnionMangas
 
 object Source {
     data class Details(

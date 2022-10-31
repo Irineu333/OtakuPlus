@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.neo.otaku.annotation.ThemesPreview
+import com.neo.otaku.core.Source
 import com.neo.otaku.ui.component.SelectableOptions
 import com.neo.otaku.ui.screen.source.viewModel.ListType
 import com.neo.otaku.ui.screen.source.viewModel.SourceViewModel
@@ -31,7 +32,10 @@ fun SourceScreen(
         Modifier.fillMaxWidth(),
         Arrangement.SpaceBetween
     ) {
-        SelectedChip()
+        SelectablePath(
+            selected = state.selectedPath
+        )
+
         SelectableOptions(
             options = ListType.all,
             icon = {
@@ -61,14 +65,16 @@ fun SourceScreen(
 }
 
 @Composable
-private fun SelectedChip() {
+private fun SelectablePath(
+    selected: Source.Path
+) {
     OutlinedCard {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(4.dp)
         ) {
             Text(
-                text = "Category",
+                text = selected.name,
                 Modifier.padding(start = 8.dp),
                 style = typography.labelMedium
             )

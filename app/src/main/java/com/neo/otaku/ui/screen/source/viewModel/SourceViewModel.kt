@@ -3,7 +3,7 @@ package com.neo.otaku.ui.screen.source.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neo.otaku.core.Source
-import com.neo.otaku.model.MangaLivre
+import com.neo.otaku.source.MangaLivre
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -13,7 +13,7 @@ class SourceViewModel(
     private val source: Source.Scraping = MangaLivre
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(SourceUiState())
+    private val _uiState = MutableStateFlow(SourceUiState(source.paths))
     val uiState = _uiState.asStateFlow()
 
     init {
