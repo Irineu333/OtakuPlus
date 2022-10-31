@@ -1,8 +1,7 @@
 package com.neo.otaku.ui.screen.source
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Error
 import androidx.compose.material3.CircularProgressIndicator
@@ -11,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.neo.otaku.annotation.DevicesPreview
 import com.neo.otaku.annotation.ThemesPreview
@@ -31,7 +31,9 @@ fun VerticalThumbnails(
     loadingState: SourceUiState.State,
     modifier: Modifier = Modifier,
     listType: ListType = ListType.Grid,
-    onLoadNextPage: () -> Unit = {}
+    onLoadNextPage: () -> Unit = {},
+    listState : LazyGridState = rememberLazyGridState(),
+    paddingStart: Dp? = null
 ) = Box(modifier) {
 
     val isError = loadingState is SourceUiState.State.Error
@@ -60,8 +62,16 @@ fun VerticalThumbnails(
         else -> when (listType) {
             ListType.Grid -> {
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(3)
+                    columns = GridCells.Fixed(3),
+                    state = listState
                 ) {
+
+                   paddingStart?.let {
+                       item(span = { GridItemSpan(maxLineSpan) }) {
+                           Spacer(modifier = Modifier.height(paddingStart))
+                       }
+                   }
+
                     itemsWithPadding(
                         items = thumbnails,
                         columns = 3,
@@ -94,15 +104,15 @@ private fun ThumbnailsPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
             VerticalThumbnails(
-                modifier = Modifier.padding(8.dp),
                 thumbnails = (0..5).map {
                     Source.Thumbnail(
                         name = "item $it",
                         coverUrl = ""
                     )
                 },
-                listType = ListType.Grid,
-                loadingState = SourceUiState.State.Finish
+                loadingState = SourceUiState.State.Finish,
+                modifier = Modifier.padding(8.dp),
+                listType = ListType.Grid
             )
         }
     }
@@ -115,14 +125,14 @@ private fun ThumbnailsLoadingPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
             VerticalThumbnails(
-                modifier = Modifier.padding(8.dp),
-                loadingState = SourceUiState.State.Loading,
                 thumbnails = (0..5).map {
                     Source.Thumbnail(
                         name = "item $it",
                         coverUrl = ""
                     )
-                }
+                },
+                loadingState = SourceUiState.State.Loading,
+                modifier = Modifier.padding(8.dp)
             )
         }
     }
@@ -135,14 +145,14 @@ private fun ThumbnailsErrorPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
             VerticalThumbnails(
-                modifier = Modifier.padding(8.dp),
                 thumbnails = (0..5).map {
                     Source.Thumbnail(
                         name = "item $it",
                         coverUrl = ""
                     )
                 },
-                loadingState = SourceUiState.State.Error
+                loadingState = SourceUiState.State.Error,
+                modifier = Modifier.padding(8.dp)
             )
         }
     }
@@ -154,8 +164,8 @@ private fun ErrorPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground(Modifier.fillMaxSize()) {
             VerticalThumbnails(
-                loadingState = SourceUiState.State.Error,
-                thumbnails = emptyList()
+                thumbnails = emptyList(),
+                loadingState = SourceUiState.State.Error
             )
         }
     }

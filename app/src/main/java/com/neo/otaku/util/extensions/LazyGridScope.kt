@@ -32,7 +32,7 @@ fun <E> LazyGridScope.itemsWithPadding(
     itemsIndexed(items) { index, item ->
 
         val lastColum = index.inc() % columns == 0
-        val lastRow = index > items.lastIndex - 3
+        val lastRow = index > items.lastIndex - columns
 
         Box(
             modifier = Modifier

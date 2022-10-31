@@ -18,9 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             OtakuPlusTheme {
                 OtakuPlusBackground {
-                    SourceScreen(
-                        modifier = Modifier.padding(16.dp)
-                    )
+                    SourceScreen()
                 }
             }
         }
