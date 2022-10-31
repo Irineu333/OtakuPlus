@@ -11,13 +11,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Row as NativeRow
 
 open class Option constructor(
-    val icon: ImageVector? = null,
-    val text: String? = null
+    open val icon: ImageVector? = null,
+    open val text: String? = null
 ) {
-    init {
-        if (icon == null && text == null) error("need some argument")
-    }
-
     override fun equals(other: Any?): Boolean {
         return if (other is Option) {
             other.icon == icon &&

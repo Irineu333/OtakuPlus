@@ -3,7 +3,7 @@ package com.neo.otaku.core
 import com.neo.otaku.model.MangaLivre
 import com.neo.otaku.model.UnionMangas
 
-object Manga {
+object Source {
     data class Details(
         val thumbnail: Thumbnail
     )
@@ -20,17 +20,22 @@ object Manga {
         val hasNextPage: Boolean
     )
 
-    interface Scraping {
+    data class Path(
+        val value : String,
+        val name : String
+    )
 
+    interface Scraping {
         val url : String
         val name: String
         val iconUrl get() = "$url/favicon.ico"
 
+        val paths : List<Path>
+
         suspend fun getPage(
             page: Int = 1,
-            path: String
+            path: Path
         ): Page
-
         suspend fun getDetails(): Details
     }
 

@@ -1,30 +1,37 @@
 package com.neo.otaku.model
 
-import com.neo.otaku.core.Manga
+import com.neo.otaku.core.Source
 import com.neo.otaku.util.extensions.firstSubstring
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 
-object MangaLivre : Manga.Scraping {
+object MangaLivre : Source.Scraping {
 
     override val url: String = "https://mangalivre.net"
     override val name: String = "Manga Livre"
 
+    override val paths: List<Source.Path> = listOf(
+        Source.Path(
+            name = "Nota",
+            value = "nota"
+        )
+    )
+
     override suspend fun getPage(
         page: Int,
-        path: String
-    ): Manga.Page {
+        path: Source.Path
+    ): Source.Page {
         val document = withContext(Dispatchers.IO) {
-            Jsoup.connect("$url/series/index/$path?page=$page").get()
+            Jsoup.connect("$url/series/index/${path.value}?page=$page").get()
         }
 
         val block = document.select("ul.seriesList")
 
         val thumbnails = block.getThumbnails()
 
-        return Manga.Page(
+        return Source.Page(
             currentPage = page,
             nextPage = page + 1,
             thumbnails = thumbnails,
@@ -32,7 +39,7 @@ object MangaLivre : Manga.Scraping {
         )
     }
 
-    private fun Elements.getThumbnails(): List<Manga.Thumbnail> {
+    private fun Elements.getThumbnails(): List<Source.Thumbnail> {
         val elements = select("a.link-block")
 
         val thumbnails = elements.map {
@@ -42,7 +49,7 @@ object MangaLivre : Manga.Scraping {
                 .attr("style")
                 .firstSubstring(Regex("(?<=url\\(').+(?='\\))"))
 
-            Manga.Thumbnail(
+            Source.Thumbnail(
                 name = name,
                 coverUrl = coverUrl ?: ""
             )
@@ -50,11 +57,7 @@ object MangaLivre : Manga.Scraping {
         return thumbnails
     }
 
-    override suspend fun getDetails(): Manga.Details {
+    override suspend fun getDetails(): Source.Details {
         TODO("Not yet implemented")
-    }
-
-    enum class Path(val value: String) {
-        RATE("nota"),
     }
 }

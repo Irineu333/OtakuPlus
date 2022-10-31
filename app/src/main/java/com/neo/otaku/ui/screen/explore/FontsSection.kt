@@ -18,7 +18,7 @@ import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.ui.screen.explore.viewModel.FontViewState
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
-import com.neo.otaku.util.extensions.itemPaddingBetween
+import com.neo.otaku.util.extensions.itemsWithPadding
 
 @Composable
 internal fun FontsSection(
@@ -60,7 +60,7 @@ internal fun FontsSection(
     }
 
     LazyColumn {
-        itemPaddingBetween(
+        itemsWithPadding(
             items = fonts,
             paddingBottom = 2.dp
         ) { font ->

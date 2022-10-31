@@ -14,64 +14,57 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.neo.otaku.core.Manga
 import com.neo.otaku.ui.component.AlertCard
-import com.neo.otaku.ui.component.Button
-import com.neo.otaku.ui.screen.home.viewModel.HomeUiState
+import com.neo.otaku.ui.component.Action
+import com.neo.otaku.ui.screen.source.viewModel.SourceUiState
 
 fun <E> LazyGridScope.itemsPaging(
     items: List<E>,
-    state: HomeUiState.State,
-    hasNextPage: Boolean,
+    state: SourceUiState.State,
     onNextPage: () -> Unit,
     itemContent: @Composable LazyGridItemScope.(item: E) -> Unit
 ) {
     items(items = items, itemContent = itemContent)
-
-    item(span = { GridItemSpan(maxLineSpan) }) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .height(150.dp)
-                .fillMaxWidth()
-        ) {
-            when (state) {
-                HomeUiState.State.Error -> {
-                    AlertCard(
-                        button = Button(
-                            text = "Tentar novamente",
-                            onClick = onNextPage
-                        ),
-                        message = "Algo deu errado."
-                    )
-                }
-                HomeUiState.State.Finish -> {
-                    AlertCard(
-                        icon = Icons.TwoTone.CheckCircle,
-                        message = "Fim."
-                    )
-                }
-                HomeUiState.State.Lazy, HomeUiState.State.Loading -> {
-
-                    CircularProgressIndicator()
-
-                    if (state is HomeUiState.State.Lazy) {
-                        if (hasNextPage) {
-                            LaunchedEffect(key1 = items) {
-                                onNextPage()
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    nextPageLoad(state, onNextPage)
 }
 
-fun <E> LazyGridScope.itemPaddingBetween(
+fun <E> LazyGridScope.itemsPagingWithPadding(
     items: List<E>,
-    paddingEnd: Dp,
-    paddingBottom: Dp,
+    state: SourceUiState.State,
+    onNextPage: () -> Unit,
+    paddingBetween: Dp,
+    paddingBottom: Dp = 0.dp,
+    columns: Int,
+    itemContent: @Composable LazyGridItemScope.(item: E) -> Unit
+) {
+    itemsIndexed(items = items) { index, item ->
+        val lastColumItem = index.inc() % columns == 0
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    end = when {
+                        !lastColumItem -> paddingBetween
+                        else -> 0.dp
+                    },
+                    bottom = when {
+                        index < columns -> paddingBottom
+                        else -> 0.dp
+                    }
+                )
+        ) {
+            itemContent(item)
+        }
+    }
+
+    nextPageLoad(state, onNextPage)
+}
+
+fun <E> LazyGridScope.itemsWithPadding(
+    items: List<E>,
+    paddingContent: Dp,
+    paddingBottom: Dp = 0.dp,
     columns: Int,
     itemContent: @Composable LazyGridItemScope.(item: E) -> Unit
 ) {
@@ -84,7 +77,7 @@ fun <E> LazyGridScope.itemPaddingBetween(
                 .fillMaxWidth()
                 .padding(
                     end = when {
-                        !lastColumItem -> paddingEnd
+                        !lastColumItem -> paddingContent
                         else -> 0.dp
                     },
                     bottom = when {
@@ -94,6 +87,48 @@ fun <E> LazyGridScope.itemPaddingBetween(
                 )
         ) {
             itemContent(item)
+        }
+    }
+}
+
+private fun LazyGridScope.nextPageLoad(
+    state: SourceUiState.State,
+    onNextPage: () -> Unit
+) {
+    item(span = { GridItemSpan(maxLineSpan) }) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .height(150.dp)
+                .fillMaxWidth()
+        ) {
+            when (state) {
+                SourceUiState.State.Error -> {
+                    AlertCard(
+                        action = Action(
+                            text = "Tentar novamente",
+                            onClick = onNextPage
+                        ),
+                        message = "Algo deu errado."
+                    )
+                }
+                SourceUiState.State.Finish -> {
+                    AlertCard(
+                        icon = Icons.TwoTone.CheckCircle,
+                        message = "Fim."
+                    )
+                }
+                SourceUiState.State.Lazy, SourceUiState.State.Loading -> {
+
+                    CircularProgressIndicator()
+
+                    if (state is SourceUiState.State.Lazy) {
+                        LaunchedEffect(key1 = state) {
+                            onNextPage()
+                        }
+                    }
+                }
+            }
         }
     }
 }

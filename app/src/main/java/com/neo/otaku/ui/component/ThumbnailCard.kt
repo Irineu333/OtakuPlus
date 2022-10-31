@@ -1,27 +1,25 @@
 package com.neo.otaku.ui.component
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.neo.otaku.annotation.ThemesPreview
-import com.neo.otaku.core.Manga
+import com.neo.otaku.core.Source
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 import com.neo.otaku.util.extensions.roundedShape
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun ThumbnailCard(
-    thumbnail: Manga.Thumbnail,
+    thumbnail: Source.Thumbnail,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
@@ -73,7 +71,7 @@ fun ThumbnailCard(
 private fun MangaCardPreview() {
     OtakuPlusTheme {
         ThumbnailCard(
-            thumbnail = Manga.Thumbnail(
+            thumbnail = Source.Thumbnail(
                 name = "Name here",
                 coverUrl = "",
             ),

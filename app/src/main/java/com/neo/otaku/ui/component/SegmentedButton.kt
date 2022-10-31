@@ -18,16 +18,17 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.core.Option
+import com.neo.otaku.ui.screen.source.viewModel.ListType
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 import com.neo.otaku.util.extensions.onRippleClick
 
 @Composable
-fun OptionsChip(
-    options: List<Option>,
+fun <T : Option> SelectableOptions(
+    options: List<T>,
     modifier: Modifier = Modifier,
-    selected: Option = options[0],
-    onChange: (Option) -> Unit = {},
+    selected: T = options[0],
+    onChange: (T) -> Unit = {},
     icon: @Composable (ImageVector) -> Unit = {
         Icon(
             imageVector = it,
@@ -116,20 +117,11 @@ private fun DefaultPreview() {
     OtakuPlusTheme {
         OtakuPlusBackground {
 
-            val options = listOf(
-                Option(
-                    icon = Icons.TwoTone.ViewList,
-                    text = "List"
-                ),
-                Option(
-                    icon = Icons.TwoTone.GridView,
-                    text = "Grid"
-                ),
-            )
+            val options = ListType.all
 
             var selected by remember { mutableStateOf(options[0]) }
 
-            OptionsChip(
+            SelectableOptions(
                 options = options,
                 selected = selected,
                 onChange = {

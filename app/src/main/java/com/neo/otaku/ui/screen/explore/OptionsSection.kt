@@ -4,10 +4,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.History
-import androidx.compose.material.icons.rounded.Save
-import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,7 +13,7 @@ import com.neo.otaku.ui.component.Explore
 import com.neo.otaku.ui.component.OptionCard
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
-import com.neo.otaku.util.extensions.itemPaddingBetween
+import com.neo.otaku.util.extensions.itemsWithPadding
 
 @Composable
 internal fun OptionsSection(
@@ -28,9 +24,9 @@ internal fun OptionsSection(
     columns = GridCells.Fixed(columns),
     modifier = modifier
 ) {
-    itemPaddingBetween(
+    itemsWithPadding(
         items = options,
-        paddingEnd = 8.dp,
+        paddingContent = 8.dp,
         paddingBottom = 8.dp,
         columns = columns
     ) { option ->

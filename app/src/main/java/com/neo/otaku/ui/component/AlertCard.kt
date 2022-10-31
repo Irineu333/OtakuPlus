@@ -19,7 +19,7 @@ import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 
-data class Button(
+data class Action(
     val text: String,
     val onClick: () -> Unit = {}
 )
@@ -30,7 +30,7 @@ fun AlertCard(
     icon: ImageVector? = null,
     iconTint: Color = LocalContentColor.current,
     message: String,
-    button: Button? = null
+    action: Action? = null
 ) = Column(
     modifier = modifier,
     horizontalAlignment = CenterHorizontally
@@ -53,7 +53,7 @@ fun AlertCard(
         fontSize = 22.sp
     )
 
-    button?.let {
+    action?.let {
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -73,7 +73,7 @@ private fun ErrorCardPreview() {
                     modifier = Modifier.align(Alignment.Center),
                     message = "message here",
                     icon = Icons.TwoTone.Android,
-                    button = Button(
+                    action = Action(
                         text = "text here"
                     )
                 )

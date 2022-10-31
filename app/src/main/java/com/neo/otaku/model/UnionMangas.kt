@@ -1,20 +1,31 @@
 package com.neo.otaku.model
 
-import com.neo.otaku.core.Manga
+import com.neo.otaku.core.Source
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 
-object UnionMangas : Manga.Scraping {
+object UnionMangas : Source.Scraping {
 
     override val url: String = "https://unionleitor.top"
     override val name: String = "Union Mangás"
 
-    override suspend fun getPage(page: Int, path: String): Manga.Page {
+    override val paths: List<Source.Path> = listOf(
+        Source.Path(
+            value = "visualizacoes",
+            name = "Popular"
+        ),
+        Source.Path(
+            value = "completos",
+            name = "Completos"
+        )
+    )
+
+    override suspend fun getPage(page: Int, path: Source.Path): Source.Page {
 
         val document = withContext(Dispatchers.IO) {
-            Jsoup.connect("$url/lista-mangas/$path/$page").get()
+            Jsoup.connect("$url/lista-mangas/${path.value}/$page").get()
         }
 
         val block = document.select("div.tamanho-bloco-perfil")
@@ -23,7 +34,7 @@ object UnionMangas : Manga.Scraping {
 
         // val pagination = block.getPagination()
 
-        return Manga.Page(
+        return Source.Page(
             currentPage = page,
             nextPage = page + 1,
             thumbnails = thumbnails,
@@ -43,14 +54,14 @@ object UnionMangas : Manga.Scraping {
         )
     }
 
-    private fun Elements.getThumbnails(): List<Manga.Thumbnail> {
+    private fun Elements.getThumbnails(): List<Source.Thumbnail> {
         val elements = select("div.lista-mangas-novos")
 
         val thumbnails = elements.map {
             val name = it.select("a").text()
             val coverUrl = it.select("img").attr("src")
 
-            Manga.Thumbnail(
+            Source.Thumbnail(
                 name = name,
                 coverUrl = coverUrl
             )
@@ -58,13 +69,8 @@ object UnionMangas : Manga.Scraping {
         return thumbnails
     }
 
-    override suspend fun getDetails(): Manga.Details {
+    override suspend fun getDetails(): Source.Details {
         TODO("Not yet implemented")
-    }
-
-    enum class Path(val value: String) {
-        POPULAR("visualizacoes"),
-        COMPLETE("completos")
     }
 
     data class Pagination(

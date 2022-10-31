@@ -1,7 +1,7 @@
 package com.neo.otaku.ui.screen.explore.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.neo.otaku.core.Manga.fonts
+import com.neo.otaku.core.Source.fonts
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

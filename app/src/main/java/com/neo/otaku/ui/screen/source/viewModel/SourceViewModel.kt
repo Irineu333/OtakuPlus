@@ -2,19 +2,18 @@ package com.neo.otaku.ui.screen.source.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.neo.otaku.core.Manga
+import com.neo.otaku.core.Source
 import com.neo.otaku.model.MangaLivre
-import com.neo.otaku.ui.screen.home.viewModel.HomeUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SourceViewModel(
-    private val source: Manga.Scraping
+    private val source: Source.Scraping = MangaLivre
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
+    private val _uiState = MutableStateFlow(SourceUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
@@ -24,7 +23,7 @@ class SourceViewModel(
     fun loadNextPage() {
         _uiState.update {
             it.copy(
-                state = HomeUiState.State.Loading
+                loadingState = SourceUiState.State.Loading
             )
         }
 
@@ -32,28 +31,36 @@ class SourceViewModel(
             runCatching {
                 source.getPage(
                     page = uiState.value.nextPage,
-                    path = MangaLivre.Path.RATE.value
+                    path = source.paths[0]
                 )
             }.onSuccess { page ->
                 _uiState.update {
                     it.copy(
                         thumbnails = (it.thumbnails + page.thumbnails).distinct(),
-                        currentPage = page.currentPage,
+                        lastLoadedPage = page.currentPage,
                         nextPage = page.nextPage,
-                        state = if (page.hasNextPage) {
-                            HomeUiState.State.Lazy
+                        loadingState = if (page.hasNextPage) {
+                            SourceUiState.State.Lazy
                         } else {
-                            HomeUiState.State.Finish
+                            SourceUiState.State.Finish
                         }
                     )
                 }
             }.onFailure {
                 _uiState.update {
                     it.copy(
-                        state = HomeUiState.State.Error
+                        loadingState = SourceUiState.State.Error
                     )
                 }
             }
+        }
+    }
+
+    fun changeListType(newListType: ListType) {
+        _uiState.update {
+            it.copy(
+                listType = newListType
+            )
         }
     }
 }
