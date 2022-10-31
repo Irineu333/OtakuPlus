@@ -26,7 +26,7 @@ internal fun OptionsSection(
 ) {
     itemsWithPadding(
         items = options,
-        paddingContent = 8.dp,
+        paddingEnd = 8.dp,
         paddingBottom = 8.dp,
         columns = columns
     ) { option ->

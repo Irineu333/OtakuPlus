@@ -1,8 +1,6 @@
 package com.neo.otaku.ui.screen.source
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
@@ -24,7 +22,8 @@ import com.neo.otaku.ui.screen.source.viewModel.ListType
 import com.neo.otaku.ui.screen.source.viewModel.SourceUiState
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
-import com.neo.otaku.util.extensions.itemsPagingWithPadding
+import com.neo.otaku.util.extensions.itemsWithPadding
+import com.neo.otaku.util.extensions.nextPageLoad
 
 @Composable
 fun VerticalThumbnails(
@@ -63,18 +62,19 @@ fun VerticalThumbnails(
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(3)
                 ) {
-                    itemsPagingWithPadding(
+                    itemsWithPadding(
                         items = thumbnails,
-                        state = loadingState,
-                        onNextPage = onLoadNextPage,
                         columns = 3,
-                        paddingBottom = 4.dp,
-                        paddingBetween = 4.dp
+                        paddingBottom = 8.dp,
+                        paddingEnd = 8.dp
                     ) { thumbnail ->
-                        ThumbnailCard(
-                            thumbnail = thumbnail
-                        )
+                        ThumbnailCard(thumbnail)
                     }
+
+                    nextPageLoad(
+                        state = loadingState,
+                        onNextPage = onLoadNextPage
+                    )
                 }
             }
             ListType.List -> {

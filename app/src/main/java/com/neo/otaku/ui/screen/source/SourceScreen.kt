@@ -49,7 +49,7 @@ fun SourceScreen(
         )
     }
 
-    Spacer(modifier = Modifier.height(8.dp))
+    Spacer(modifier = Modifier.height(16.dp))
 
     VerticalThumbnails(
         thumbnails = state.thumbnails,

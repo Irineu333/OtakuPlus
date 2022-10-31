@@ -22,47 +22,45 @@ fun ThumbnailCard(
     thumbnail: Source.Thumbnail,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
+) = Card(
+    onClick = onClick,
+    modifier = modifier
 ) {
-    Card(
-        onClick = onClick,
-        modifier = modifier
-    ) {
-        Column(modifier = Modifier.padding(8.dp)) {
+    Column(Modifier.padding(8.dp)) {
 
-            BoxWithConstraints {
-                SubcomposeAsyncImage(
-                    model = thumbnail.coverUrl,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(maxWidth * 1.5f)
-                        .roundedShape(),
-                    loading = {
-                        Icon(
-                            imageVector = Icons.TwoTone.Image,
-                            contentDescription = null,
-                            modifier = Modifier.padding(16.dp)
-                        )
-                    },
-                    error = {
-                        Icon(
-                            imageVector = Icons.TwoTone.BrokenImage,
-                            contentDescription = null,
-                            modifier = Modifier.padding(16.dp)
-                        )
-                    }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = thumbnail.name,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+        BoxWithConstraints {
+            SubcomposeAsyncImage(
+                model = thumbnail.coverUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp)
+                    .roundedShape(),
+                loading = {
+                    Icon(
+                        imageVector = Icons.TwoTone.Image,
+                        contentDescription = null,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                },
+                error = {
+                    Icon(
+                        imageVector = Icons.TwoTone.BrokenImage,
+                        contentDescription = null,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
             )
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Text(
+            text = thumbnail.name,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
+        )
     }
 }
 
