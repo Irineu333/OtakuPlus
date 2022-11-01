@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.neo.otaku.ui.screen.source
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material3.*
@@ -26,8 +29,6 @@ import com.neo.otaku.ui.screen.source.viewModel.SourceViewModel
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 
-private val MAX_OPTION_TRANSLATE = 48.dp
-
 @Composable
 fun SourceScreen(
     modifier: Modifier = Modifier,
@@ -38,7 +39,7 @@ fun SourceScreen(
 
     val optionsTranslate = remember { mutableStateOf(0f) }
 
-    val maxOptionTranslate = LocalDensity.current.run { MAX_OPTION_TRANSLATE.toPx() }
+    val maxOptionTranslate = LocalDensity.current.run { 48.dp.toPx() }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -67,7 +68,7 @@ fun SourceScreen(
             loadingState = state.loadingState,
             onLoadNextPage = viewModel::loadNextPage,
             modifier = Modifier.fillMaxSize(),
-            paddingStart = MAX_OPTION_TRANSLATE + 8.dp,
+            paddingStart = 56.dp,
         )
 
         SourceControls(
@@ -78,7 +79,7 @@ fun SourceScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(MAX_OPTION_TRANSLATE)
+                .height(48.dp)
                 .padding(top = 16.dp)
                 .graphicsLayer {
                     translationY = optionsTranslate.value
@@ -119,23 +120,27 @@ private fun SourceControls(
 
 @Composable
 private fun SelectablePath(
-    selected: Source.Path
+    selected: Source.Path,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) = OutlinedCard(
+    onClick,
+    modifier,
+    shape = RoundedCornerShape(50)
 ) {
-    OutlinedCard {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(4.dp)
-        ) {
-            Text(
-                text = selected.name,
-                Modifier.padding(start = 8.dp),
-                style = typography.labelMedium
-            )
-            Icon(
-                Icons.Rounded.ArrowDropDown,
-                contentDescription = null,
-            )
-        }
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(4.dp)
+    ) {
+        Text(
+            text = selected.name,
+            Modifier.padding(start = 8.dp),
+            style = typography.labelMedium
+        )
+        Icon(
+            Icons.Rounded.ArrowDropDown,
+            contentDescription = null,
+        )
     }
 }
 
