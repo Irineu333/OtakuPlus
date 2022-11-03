@@ -1,15 +1,20 @@
 package com.neo.otaku.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.*
 import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.neo.otaku.annotation.ThemesPreview
@@ -68,7 +73,10 @@ fun ThumbnailCard(
             )
         }
         ListType.List -> Row(
-            Modifier.padding(8.dp).fillMaxWidth()
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
         ) {
             SubcomposeAsyncImage(
                 model = thumbnail.coverUrl,
@@ -93,19 +101,50 @@ fun ThumbnailCard(
                 }
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(Modifier.width(16.dp))
 
-            Column {
+            var expanded by rememberSaveable { mutableStateOf(false) }
+
+            Column(
+                Modifier.height(if (expanded) Dp.Unspecified else 160.dp)
+            ) {
                 Text(
                     text = thumbnail.name,
                     style = typography.titleLarge
                 )
 
-                Text(
-                    text = "description",
-                    overflow = TextOverflow.Ellipsis,
-                    style = typography.bodyMedium
-                )
+                Spacer(Modifier.height(4.dp))
+
+                var expandable by rememberSaveable { mutableStateOf(false) }
+
+                Column(
+                    Modifier.clickable(expandable || expanded) {
+                        expanded = !expanded
+                    }
+                ) {
+                    Text(
+                        text = thumbnail.description,
+                        overflow = TextOverflow.Ellipsis,
+                        style = typography.bodyMedium,
+                        onTextLayout = { textLayoutResult ->
+                            expandable = textLayoutResult.hasVisualOverflow
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                    )
+
+                    if (expandable || expanded) {
+                        Icon(
+                            imageVector = if (expanded)
+                                Icons.Rounded.ExpandLess
+                            else
+                                Icons.Rounded.ExpandMore,
+                            contentDescription = null,
+                            Modifier.align(CenterHorizontally)
+                        )
+                    }
+                }
             }
         }
     }
@@ -119,6 +158,7 @@ private fun GridPreview() {
             thumbnail = Source.Thumbnail(
                 name = "Name here",
                 coverUrl = "",
+                description = "",
             ),
             type = ListType.Grid
         )
@@ -133,6 +173,7 @@ private fun ListPreview() {
             thumbnail = Source.Thumbnail(
                 name = "Name here",
                 coverUrl = "",
+                description = "Description here",
             ),
             type = ListType.List
         )

@@ -63,15 +63,18 @@ object MangaLivre : Source.Scraping {
         val elements = select("a.link-block")
 
         val thumbnails = elements.map {
-            val name = it.select("span.series-title").text()
-
             val coverUrl = it.select("div.cover-image")
                 .attr("style")
                 .firstSubstring(Regex("(?<=url\\(').+(?='\\))"))
 
+            val name = it.select("span.series-title").text()
+
+            val description = it.select("span.series-desc").text()
+
             Source.Thumbnail(
                 name = name,
-                coverUrl = coverUrl ?: ""
+                coverUrl = coverUrl ?: "",
+                description = description
             )
         }
         return thumbnails

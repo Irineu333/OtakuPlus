@@ -10,7 +10,8 @@ object Source {
 
     data class Thumbnail(
         val name: String,
-        val coverUrl: String
+        val coverUrl: String,
+        val description: String
     )
 
     data class Page(

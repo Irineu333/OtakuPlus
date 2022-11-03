@@ -2,13 +2,11 @@ package com.neo.otaku.ui.screen.source
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Error
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -128,7 +126,8 @@ private fun ThumbnailsPreview() {
                 thumbnails = (0..5).map {
                     Source.Thumbnail(
                         name = "item $it",
-                        coverUrl = ""
+                        coverUrl = "",
+                        description = ""
                     )
                 },
                 loadingState = SourceUiState.State.Finish,
@@ -149,7 +148,8 @@ private fun ThumbnailsLoadingPreview() {
                 thumbnails = (0..5).map {
                     Source.Thumbnail(
                         name = "item $it",
-                        coverUrl = ""
+                        coverUrl = "",
+                        description = ""
                     )
                 },
                 loadingState = SourceUiState.State.Loading,
@@ -169,7 +169,8 @@ private fun ThumbnailsErrorPreview() {
                 thumbnails = (0..5).map {
                     Source.Thumbnail(
                         name = "item $it",
-                        coverUrl = ""
+                        coverUrl = "",
+                        description = ""
                     )
                 },
                 loadingState = SourceUiState.State.Error,

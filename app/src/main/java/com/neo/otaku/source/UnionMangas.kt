@@ -63,7 +63,8 @@ object UnionMangas : Source.Scraping {
 
             Source.Thumbnail(
                 name = name,
-                coverUrl = coverUrl
+                coverUrl = coverUrl,
+                description = ""
             )
         }
         return thumbnails
