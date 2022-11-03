@@ -25,7 +25,7 @@ object UnionMangas : Source.Scraping {
     override suspend fun getPage(page: Int, path: Source.Path): Source.Page {
 
         val document = withContext(Dispatchers.IO) {
-            Jsoup.connect("$url/lista-mangas/${path.value}/$page").get()
+            Jsoup.connect("$url/lista-mangas/${path.value}/$page").timeout(5000).get()
         }
 
         val block = document.select("div.tamanho-bloco-perfil")
@@ -58,13 +58,17 @@ object UnionMangas : Source.Scraping {
         val elements = select("div.lista-mangas-novos")
 
         val thumbnails = elements.map {
-            val name = it.select("a").text()
+
             val coverUrl = it.select("img").attr("src")
+
+            val name = it.select("a").text()
+
+            val description = it.text().removePrefix(name).trim()
 
             Source.Thumbnail(
                 name = name,
                 coverUrl = coverUrl,
-                description = ""
+                description = description
             )
         }
         return thumbnails

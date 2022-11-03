@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neo.otaku.core.Source
 import com.neo.otaku.source.MangaLivre
+import com.neo.otaku.source.UnionMangas
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,17 +12,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SourceViewModel(
-    private val source: Source.Scraping = MangaLivre
+    private val source: Source.Scraping = UnionMangas
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SourceUiState(source.paths))
     val uiState = _uiState.asStateFlow()
 
     private var loadingJob: Job? = null
-        set(value) {
-            field?.cancel()
-            field = value
-        }
 
     init {
         loadNextPage()
@@ -34,6 +31,7 @@ class SourceViewModel(
             )
         }
 
+        loadingJob?.cancel()
         loadingJob = viewModelScope.launch {
             runCatching {
                 source.getPage(

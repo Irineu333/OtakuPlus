@@ -4,18 +4,23 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
-import androidx.compose.material.icons.twotone.BrokenImage
-import androidx.compose.material.icons.twotone.Image
+import androidx.compose.material.icons.twotone.*
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
 import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.core.Source
@@ -77,7 +82,7 @@ fun ThumbnailCard(
             Modifier
                 .padding(8.dp)
                 .fillMaxWidth()
-                .height(IntrinsicSize.Min)
+                .height(IntrinsicSize.Max)
         ) {
             SubcomposeAsyncImage(
                 model = thumbnail.coverUrl,
@@ -105,9 +110,12 @@ fun ThumbnailCard(
             Spacer(Modifier.width(16.dp))
 
             var expanded by rememberSaveable { mutableStateOf(false) }
+            var expandable by rememberSaveable { mutableStateOf(false) }
 
             Column(
-                Modifier.height(if (expanded) Dp.Unspecified else 160.dp)
+                Modifier.let {
+                    if (expanded) it else it.height(160.dp)
+                }
             ) {
                 Text(
                     text = thumbnail.name,
@@ -120,10 +128,12 @@ fun ThumbnailCard(
                     text = thumbnail.description,
                     overflow = TextOverflow.Ellipsis,
                     style = typography.bodyMedium,
+                    onTextLayout = {
+                        expandable = it.hasVisualOverflow || expanded
+                    },
                     modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth()
-                        .clickable {
+                        .weight(1f, fill = false)
+                        .clickable(expandable) {
                             expanded = !expanded
                         }
                 )

@@ -44,7 +44,7 @@ object MangaLivre : Source.Scraping {
         path: Source.Path
     ): Source.Page {
         val document = withContext(Dispatchers.IO) {
-            Jsoup.connect("$url/series/index/${path.value}?page=$page").get()
+            Jsoup.connect("$url/series/index/${path.value}?page=$page").timeout(5000).get()
         }
 
         val block = document.select("ul.seriesList")
