@@ -6,7 +6,6 @@ data class SourceUiState(
     val paths: List<Source.Path>,
     val thumbnails: List<Source.Thumbnail> = emptyList(),
     val selectedPath: Source.Path = paths[0],
-    val lastLoadedPage: Int? = null,
     val nextPage: Int = 1,
     val loadingState: State = State.Loading,
     val listType: ListType = ListType.Grid

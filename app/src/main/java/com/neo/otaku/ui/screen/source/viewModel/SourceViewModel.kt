@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neo.otaku.core.Source
 import com.neo.otaku.source.MangaLivre
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -16,6 +17,12 @@ class SourceViewModel(
     private val _uiState = MutableStateFlow(SourceUiState(source.paths))
     val uiState = _uiState.asStateFlow()
 
+    private var loadingJob: Job? = null
+        set(value) {
+            field?.cancel()
+            field = value
+        }
+
     init {
         loadNextPage()
     }
@@ -27,17 +34,16 @@ class SourceViewModel(
             )
         }
 
-        viewModelScope.launch {
+        loadingJob = viewModelScope.launch {
             runCatching {
                 source.getPage(
                     page = uiState.value.nextPage,
-                    path = source.paths[0]
+                    path = uiState.value.selectedPath
                 )
             }.onSuccess { page ->
                 _uiState.update {
                     it.copy(
                         thumbnails = (it.thumbnails + page.thumbnails).distinct(),
-                        lastLoadedPage = page.currentPage,
                         nextPage = page.nextPage,
                         loadingState = if (page.hasNextPage) {
                             SourceUiState.State.Lazy
@@ -62,5 +68,18 @@ class SourceViewModel(
                 listType = newListType
             )
         }
+    }
+
+    fun changePath(path: Source.Path) {
+        _uiState.update {
+            it.copy(
+                selectedPath = path,
+                thumbnails = emptyList(),
+                loadingState = SourceUiState.State.Loading,
+                nextPage = 1,
+            )
+        }
+
+        loadNextPage()
     }
 }

@@ -1,14 +1,16 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 
 package com.neo.otaku.ui.screen.source
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
+import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,9 +27,11 @@ import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.core.Source
 import com.neo.otaku.ui.component.SelectableOptions
 import com.neo.otaku.ui.screen.source.viewModel.ListType
+import com.neo.otaku.ui.screen.source.viewModel.SourceUiState
 import com.neo.otaku.ui.screen.source.viewModel.SourceViewModel
 import com.neo.otaku.ui.theme.OtakuPlusBackground
 import com.neo.otaku.ui.theme.OtakuPlusTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun SourceScreen(
@@ -35,11 +39,67 @@ fun SourceScreen(
     viewModel: SourceViewModel = viewModel()
 ) {
 
-    val state = viewModel.uiState.collectAsState().value
+    val state by viewModel.uiState.collectAsState()
+
+    val bottomSheetState = rememberBottomSheetScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
+
+    fun showTagsBottomSheet() {
+        coroutineScope.launch {
+            bottomSheetState.bottomSheetState.expand()
+        }
+    }
+
+    fun hideTagsBottomSheet() {
+        coroutineScope.launch {
+            bottomSheetState.bottomSheetState.collapse()
+        }
+    }
+
+    BottomSheetScaffold(
+        modifier = modifier,
+        scaffoldState = bottomSheetState,
+        sheetContent = {
+            FiltersSheetContent(
+                paths = state.paths,
+                selected = state.selectedPath,
+                onChangeFilter = {
+                    hideTagsBottomSheet()
+                    viewModel.changePath(it)
+                }
+            )
+        },
+        sheetShape = RoundedCornerShape(
+            topStart = 16.dp,
+            topEnd = 16.dp,
+        ),
+        sheetPeekHeight = 0.dp,
+        backgroundColor = colorScheme.background,
+        sheetBackgroundColor = colorScheme.surfaceVariant
+    ) {
+        SourceContent(
+            sourceState = state,
+            showTagsBottomSheet = {
+                showTagsBottomSheet()
+            },
+            onChangeListType = viewModel::changeListType,
+            onLoadNextPage = viewModel::loadNextPage,
+
+            )
+    }
+}
+
+@Composable
+private fun SourceContent(
+    modifier: Modifier = Modifier,
+    showTagsBottomSheet: () -> Unit,
+    onLoadNextPage: () -> Unit,
+    onChangeListType: (ListType) -> Unit,
+    sourceState: SourceUiState
+) {
+    val maxOptionTranslate = LocalDensity.current.run { 48.dp.toPx() }
 
     val optionsTranslate = remember { mutableStateOf(0f) }
-
-    val maxOptionTranslate = LocalDensity.current.run { 48.dp.toPx() }
 
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -63,20 +123,19 @@ fun SourceScreen(
     ) {
 
         VerticalThumbnails(
-            thumbnails = state.thumbnails,
-            listType = state.listType,
-            loadingState = state.loadingState,
-            onLoadNextPage = viewModel::loadNextPage,
+            thumbnails = sourceState.thumbnails,
+            listType = sourceState.listType,
+            loadingState = sourceState.loadingState,
+            onLoadNextPage = onLoadNextPage,
             modifier = Modifier.fillMaxSize(),
             paddingStart = 56.dp,
         )
 
         SourceControls(
-            selectedListType = state.listType,
-            selectedPath = state.selectedPath,
-            onChangeListType = {
-                viewModel.changeListType(it)
-            },
+            selectedListType = sourceState.listType,
+            selectedPath = sourceState.selectedPath,
+            onChangeListType = onChangeListType,
+            onChangePath = showTagsBottomSheet,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
@@ -92,6 +151,7 @@ fun SourceScreen(
 private fun SourceControls(
     modifier: Modifier = Modifier,
     onChangeListType: (ListType) -> Unit,
+    onChangePath: () -> Unit,
     selectedPath: Source.Path,
     selectedListType: ListType
 ) = Row(
@@ -100,7 +160,8 @@ private fun SourceControls(
 ) {
 
     SelectablePath(
-        selected = selectedPath
+        selected = selectedPath,
+        onClick = onChangePath
     )
 
     SelectableOptions(

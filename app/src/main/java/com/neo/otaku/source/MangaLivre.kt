@@ -14,9 +14,29 @@ object MangaLivre : Source.Scraping {
 
     override val paths: List<Source.Path> = listOf(
         Source.Path(
-            name = "Avaliação",
+            name = "Melhor avaliados",
             value = "nota"
-        )
+        ),
+        Source.Path(
+            name = "Com mais capítulos",
+            value = "numero-de-capitulos?"
+        ),
+        Source.Path(
+            name = "Mais lidos desde sempre",
+            value = "numero-de-leituras/todos/desde-o-comeco"
+        ),
+        Source.Path(
+            name = "Mais lidos do mês",
+            value = "numero-de-leituras/todos/mes"
+        ),
+        Source.Path(
+            name = "Mais lidos da semana",
+            value = "numero-de-leituras/todos/semana"
+        ),
+        Source.Path(
+            name = "Mais lidos do dia",
+            value = "numero-de-leituras/todos/dia"
+        ),
     )
 
     override suspend fun getPage(
