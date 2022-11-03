@@ -25,7 +25,7 @@ internal fun FontsSection(
     modifier: Modifier = Modifier,
     fonts: List<FontViewState>,
     onManageFonts: () -> Unit = {},
-    onOptionClick: () -> Unit = {}
+    onOptionClick: (FontViewState) -> Unit = {}
 ) = Column(modifier = modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -66,7 +66,7 @@ internal fun FontsSection(
         ) { font ->
             FontCard(
                 font = font,
-                onClick = { }
+                onClick = { onOptionClick(font) }
             )
         }
     }
@@ -79,8 +79,8 @@ private fun DefaultPreview() {
         OtakuPlusBackground {
             FontsSection(
                 fonts = listOf(
-                    FontViewState(name = "Mangá Livre", iconUrl = ""),
-                    FontViewState(name = "Union Mangás", iconUrl = ""),
+                    FontViewState(name = "Mangá Livre", iconUrl = "", slug = ""),
+                    FontViewState(name = "Union Mangás", iconUrl = "", slug = ""),
                 ),
                 modifier = Modifier.padding(4.dp)
             )

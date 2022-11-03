@@ -10,6 +10,7 @@ object UnionMangas : Source.Scraping {
 
     override val url: String = "https://unionleitor.top"
     override val name: String = "Union Mangás"
+    override val slug: String = "union_mangas"
 
     override val paths: List<Source.Path> = listOf(
         Source.Path(

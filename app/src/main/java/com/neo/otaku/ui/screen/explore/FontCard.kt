@@ -95,7 +95,8 @@ private fun DefaultPreview() {
             FontCard(
                 font = FontViewState(
                     name = "name here",
-                    iconUrl = ""
+                    iconUrl = "",
+                    slug = ""
                 )
             )
         }

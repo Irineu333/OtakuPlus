@@ -26,6 +26,8 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.core.Source
@@ -40,7 +42,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun SourceScreen(
     modifier: Modifier = Modifier,
-    viewModel: SourceViewModel = viewModel()
+    source: Source.Scraping = Source.fonts[0],
+    viewModel: SourceViewModel = viewModel(
+        factory = SourceViewModel.Factory(source)
+    )
 ) {
 
     val state by viewModel.uiState.collectAsState()

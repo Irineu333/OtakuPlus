@@ -29,6 +29,7 @@ object Source {
     interface Scraping {
         val url : String
         val name: String
+        val slug : String
         val iconUrl get() = "$url/favicon.ico"
 
         val paths : List<Path>

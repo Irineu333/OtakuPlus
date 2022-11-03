@@ -1,6 +1,7 @@
 package com.neo.otaku.ui.screen.source.viewModel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.neo.otaku.core.Source
 import com.neo.otaku.source.MangaLivre
@@ -79,5 +80,15 @@ class SourceViewModel(
         }
 
         loadNextPage()
+    }
+
+    class Factory(
+        private val source: Source.Scraping
+    ) : ViewModelProvider.NewInstanceFactory() {
+
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return SourceViewModel(source) as T
+        }
     }
 }

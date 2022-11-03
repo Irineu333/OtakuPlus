@@ -15,6 +15,7 @@ import com.neo.otaku.ui.theme.OtakuPlusTheme
 @Composable
 fun ExploreScreen(
     viewModel: ExploreViewModel = viewModel(),
+    navigationToSource: (String) -> Unit = {}
 ) = Column(
     modifier = Modifier
         .fillMaxSize()
@@ -44,7 +45,7 @@ fun ExploreScreen(
 
         },
         onOptionClick = {
-
+            navigationToSource(it.slug)
         }
     )
 }

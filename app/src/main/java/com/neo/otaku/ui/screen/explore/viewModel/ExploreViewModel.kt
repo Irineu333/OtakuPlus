@@ -14,7 +14,8 @@ class ExploreViewModel : ViewModel() {
         return fonts.map { scraping ->
             FontViewState(
                 name = scraping.name,
-                iconUrl = scraping.iconUrl
+                iconUrl = scraping.iconUrl,
+                slug = scraping.slug
             )
         }
     }
@@ -22,5 +23,6 @@ class ExploreViewModel : ViewModel() {
 
 data class FontViewState(
     val name: String,
-    val iconUrl: String
+    val iconUrl: String,
+    val slug: String
 )

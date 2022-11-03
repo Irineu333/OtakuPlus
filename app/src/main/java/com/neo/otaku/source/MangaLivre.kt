@@ -11,6 +11,7 @@ object MangaLivre : Source.Scraping {
 
     override val url: String = "https://mangalivre.net"
     override val name: String = "Manga Livre"
+    override val slug: String = "manga_livre"
 
     override val paths: List<Source.Path> = listOf(
         Source.Path(
