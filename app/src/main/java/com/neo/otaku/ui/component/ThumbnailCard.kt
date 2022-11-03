@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.BrokenImage
 import androidx.compose.material.icons.twotone.Image
 import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -13,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.neo.otaku.annotation.ThemesPreview
 import com.neo.otaku.core.Source
+import com.neo.otaku.ui.screen.source.viewModel.ListType
 import com.neo.otaku.ui.theme.OtakuPlusTheme
 import com.neo.otaku.util.extensions.roundedShape
 
@@ -21,21 +23,24 @@ import com.neo.otaku.util.extensions.roundedShape
 fun ThumbnailCard(
     thumbnail: Source.Thumbnail,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    type: ListType
 ) = Card(
     onClick = onClick,
     modifier = modifier
 ) {
-    Column(Modifier.padding(8.dp)) {
-
-        BoxWithConstraints {
+    when (type) {
+        ListType.Grid -> Column(
+            Modifier
+                .padding(8.dp)
+                .width(IntrinsicSize.Min)
+        ) {
             SubcomposeAsyncImage(
                 model = thumbnail.coverUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
+                    .size(120.dp, 180.dp)
                     .roundedShape(),
                 loading = {
                     Icon(
@@ -52,28 +57,85 @@ fun ThumbnailCard(
                     )
                 }
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = thumbnail.name,
+                overflow = TextOverflow.Ellipsis,
+                style = typography.titleLarge,
+                maxLines = 1
+            )
         }
+        ListType.List -> Row(
+            Modifier.padding(8.dp).fillMaxWidth()
+        ) {
+            SubcomposeAsyncImage(
+                model = thumbnail.coverUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(100.dp, 160.dp)
+                    .roundedShape(),
+                loading = {
+                    Icon(
+                        imageVector = Icons.TwoTone.Image,
+                        contentDescription = null,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                },
+                error = {
+                    Icon(
+                        imageVector = Icons.TwoTone.BrokenImage,
+                        contentDescription = null,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.width(16.dp))
 
-        Text(
-            text = thumbnail.name,
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 1
-        )
+            Column {
+                Text(
+                    text = thumbnail.name,
+                    style = typography.titleLarge
+                )
+
+                Text(
+                    text = "description",
+                    overflow = TextOverflow.Ellipsis,
+                    style = typography.bodyMedium
+                )
+            }
+        }
     }
 }
 
 @ThemesPreview
 @Composable
-private fun MangaCardPreview() {
+private fun GridPreview() {
     OtakuPlusTheme {
         ThumbnailCard(
             thumbnail = Source.Thumbnail(
                 name = "Name here",
                 coverUrl = "",
             ),
-            modifier = Modifier.width(120.dp)
+            type = ListType.Grid
         )
     }
 }
+
+@ThemesPreview
+@Composable
+private fun ListPreview() {
+    OtakuPlusTheme {
+        ThumbnailCard(
+            thumbnail = Source.Thumbnail(
+                name = "Name here",
+                coverUrl = "",
+            ),
+            type = ListType.List
+        )
+    }
+}
+

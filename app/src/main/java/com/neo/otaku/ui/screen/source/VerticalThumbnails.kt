@@ -1,6 +1,8 @@
 package com.neo.otaku.ui.screen.source
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.Error
@@ -32,7 +34,7 @@ fun VerticalThumbnails(
     modifier: Modifier = Modifier,
     listType: ListType = ListType.Grid,
     onLoadNextPage: () -> Unit = {},
-    listState : LazyGridState = rememberLazyGridState(),
+    listState: LazyGridState = rememberLazyGridState(),
     paddingStart: Dp? = null
 ) = Box(modifier) {
 
@@ -66,11 +68,11 @@ fun VerticalThumbnails(
                     state = listState
                 ) {
 
-                   paddingStart?.let {
-                       item(span = { GridItemSpan(maxLineSpan) }) {
-                           Spacer(modifier = Modifier.height(paddingStart))
-                       }
-                   }
+                    paddingStart?.let {
+                        item(span = { GridItemSpan(maxLineSpan) }) {
+                            Spacer(modifier = Modifier.height(paddingStart))
+                        }
+                    }
 
                     itemsWithPadding(
                         items = thumbnails,
@@ -78,7 +80,7 @@ fun VerticalThumbnails(
                         paddingBottom = 8.dp,
                         paddingEnd = 8.dp
                     ) { thumbnail ->
-                        ThumbnailCard(thumbnail)
+                        ThumbnailCard(thumbnail, type = listType)
                     }
 
                     nextPageLoad(
@@ -87,11 +89,30 @@ fun VerticalThumbnails(
                     )
                 }
             }
+
             ListType.List -> {
-                Text(
-                    text = "Soon",
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                LazyColumn {
+                    paddingStart?.let {
+                        item {
+                            Spacer(modifier = Modifier.height(paddingStart))
+                        }
+                    }
+
+                    itemsWithPadding(
+                        items = thumbnails,
+                        paddingBottom = 8.dp,
+                    ) { thumbnail ->
+                        ThumbnailCard(
+                            thumbnail,
+                            type = listType
+                        )
+                    }
+
+                    nextPageLoad(
+                        state = loadingState,
+                        onNextPage = onLoadNextPage
+                    )
+                }
             }
         }
     }
