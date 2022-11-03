@@ -59,7 +59,7 @@ fun FiltersSheetContent(
             Card(
                 onClick = { onChangeFilter(item) },
                 enabled = item != selected,
-                colors = CardDefaults.outlinedCardColors(
+                colors = CardDefaults.cardColors(
                     containerColor = Color.Transparent,
                     disabledContainerColor = colorScheme.primaryContainer,
                     disabledContentColor = contentColorFor(colorScheme.primaryContainer)
@@ -72,7 +72,7 @@ fun FiltersSheetContent(
                         .fillMaxWidth()
                         .padding(
                             horizontal = 16.dp,
-                            vertical = 8.dp
+                            vertical = 10.dp
                         )
                 )
             }
