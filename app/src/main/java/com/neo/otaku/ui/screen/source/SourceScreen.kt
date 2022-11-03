@@ -2,16 +2,18 @@
 
 package com.neo.otaku.ui.screen.source
 
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDropDown
-import androidx.compose.material.rememberBottomSheetScaffoldState
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +22,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,24 +44,24 @@ fun SourceScreen(
 
     val state by viewModel.uiState.collectAsState()
 
-    val bottomSheetState = rememberBottomSheetScaffoldState()
+    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
 
     fun showTagsBottomSheet() {
         coroutineScope.launch {
-            bottomSheetState.bottomSheetState.expand()
+            bottomSheetState.show()
         }
     }
 
     fun hideTagsBottomSheet() {
         coroutineScope.launch {
-            bottomSheetState.bottomSheetState.collapse()
+            bottomSheetState.hide()
         }
     }
 
-    BottomSheetScaffold(
+    ModalBottomSheetLayout(
         modifier = modifier,
-        scaffoldState = bottomSheetState,
+        sheetState = bottomSheetState,
         sheetContent = {
             FiltersSheetContent(
                 paths = state.paths,
@@ -73,19 +76,14 @@ fun SourceScreen(
             topStart = 16.dp,
             topEnd = 16.dp,
         ),
-        sheetPeekHeight = 0.dp,
-        backgroundColor = colorScheme.background,
         sheetBackgroundColor = colorScheme.surfaceVariant
     ) {
         SourceContent(
             sourceState = state,
-            showTagsBottomSheet = {
-                showTagsBottomSheet()
-            },
+            showTagsBottomSheet = ::showTagsBottomSheet,
             onChangeListType = viewModel::changeListType,
-            onLoadNextPage = viewModel::loadNextPage,
-
-            )
+            onLoadNextPage = viewModel::loadNextPage
+        )
     }
 }
 

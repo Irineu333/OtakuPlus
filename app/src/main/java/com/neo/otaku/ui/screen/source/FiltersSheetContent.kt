@@ -69,8 +69,11 @@ fun FiltersSheetContent(
                     text = item.name,
                     style = typography.labelMedium,
                     modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
                         .fillMaxWidth()
+                        .padding(
+                            horizontal = 16.dp,
+                            vertical = 8.dp
+                        )
                 )
             }
         }
