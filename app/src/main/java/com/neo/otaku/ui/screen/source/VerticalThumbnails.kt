@@ -32,7 +32,6 @@ fun VerticalThumbnails(
     modifier: Modifier = Modifier,
     listType: ListType = ListType.Grid,
     onLoadNextPage: () -> Unit = {},
-    listState: LazyGridState = rememberLazyGridState(),
     paddingStart: Dp? = null
 ) = Box(modifier) {
 
@@ -63,7 +62,7 @@ fun VerticalThumbnails(
             ListType.Grid -> {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(3),
-                    state = listState
+                    state = rememberLazyGridState()
                 ) {
 
                     paddingStart?.let {
