@@ -68,10 +68,11 @@ fun ThumbnailCard(
             Text(
                 text = thumbnail.name,
                 overflow = TextOverflow.Ellipsis,
-                style = typography.titleLarge,
+                style = typography.titleMedium,
                 maxLines = 1
             )
         }
+
         ListType.List -> Row(
             Modifier
                 .padding(8.dp)
@@ -115,36 +116,17 @@ fun ThumbnailCard(
 
                 Spacer(Modifier.height(4.dp))
 
-                var expandable by rememberSaveable { mutableStateOf(false) }
-
-                Column(
-                    Modifier.clickable(expandable || expanded) {
-                        expanded = !expanded
-                    }
-                ) {
-                    Text(
-                        text = thumbnail.description,
-                        overflow = TextOverflow.Ellipsis,
-                        style = typography.bodyMedium,
-                        onTextLayout = { textLayoutResult ->
-                            expandable = textLayoutResult.hasVisualOverflow
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                    )
-
-                    if (expandable || expanded) {
-                        Icon(
-                            imageVector = if (expanded)
-                                Icons.Rounded.ExpandLess
-                            else
-                                Icons.Rounded.ExpandMore,
-                            contentDescription = null,
-                            Modifier.align(CenterHorizontally)
-                        )
-                    }
-                }
+                Text(
+                    text = thumbnail.description,
+                    overflow = TextOverflow.Ellipsis,
+                    style = typography.bodyMedium,
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .clickable {
+                            expanded = !expanded
+                        }
+                )
             }
         }
     }
