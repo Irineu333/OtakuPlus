@@ -18,11 +18,11 @@ object MangaLivre : Source.Scraping {
             value = "nota"
         ),
         Source.Path(
-            name = "Com mais capítulos",
-            value = "numero-de-capitulos?"
+            name = "Número de capítulos",
+            value = "numero-de-capitulos"
         ),
         Source.Path(
-            name = "Mais lidos desde sempre",
+            name = "Mais lidos do site",
             value = "numero-de-leituras/todos/desde-o-comeco"
         ),
         Source.Path(

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SourceViewModel(
-    private val source: Source.Scraping = UnionMangas
+    private val source: Source.Scraping = MangaLivre
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SourceUiState(source.paths))
